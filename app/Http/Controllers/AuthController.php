@@ -30,10 +30,10 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/worker-registration",
-     *     operationId="workerRegistration",
+     *     path="/user-registration",
+     *     operationId="userRegistration",
      *     tags={"Authentication"},
-     *     summary="Register a new worker user",
+     *     summary="Register a new user",
      *     description="",
      *     @OA\RequestBody(
      *       required=true,
@@ -87,9 +87,9 @@ class AuthController extends Controller
      *     )
      * )
      */
-    public function registerWorker()
+    public function registerUser()
     {
-        return $this->register(Role::WORKER, ['email' => 'sometimes|unique:users|email']);
+        return $this->register(Role::USER, ['email' => 'sometimes|unique:users|email']);
     }
 
     /**
@@ -205,136 +205,6 @@ class AuthController extends Controller
             return $this->error($e->getMessage());
         }
     }
-
-    /**
-     * @OA\Post(
-     *     path="/employer-registration",
-     *     operationId="employerRegistration",
-     *     tags={"Authentication"},
-     *     summary="Register a new employer user",
-     *     description="",
-     *     @OA\RequestBody(
-     *       required=true,
-     *       description="Request object",
-     *       @OA\MediaType(
-     *           mediaType="application/json",
-     *           @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="first_name",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="last_name",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="email",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="phone",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="password",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="password_confirmation",
-     *                  description="",
-     *                  type="string",
-     *              )
-     *           )
-     *       )
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Returns response object",
-     *         @OA\JsonContent()
-     *     ),
-     *     @OA\Response(
-     *          response="422",
-     *          description="Error: Unproccessble Entity. When required parameters were not supplied correctly.",
-     *          @OA\JsonContent()
-     *     )
-     * )
-     */
-    public function registerEmployer()
-    {
-        return $this->register(Role::EMPLOYER);
-    }
-
-    /**
-     * @OA\Post(
-     *     path="/agent-registration",
-     *     operationId="agentRegistration",
-     *     tags={"Authentication"},
-     *     summary="Register a new agent user",
-     *     description="",
-     *     @OA\RequestBody(
-     *       required=true,
-     *       description="Request object",
-     *       @OA\MediaType(
-     *           mediaType="application/json",
-     *           @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="first_name",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="last_name",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="email",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="phone",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="password",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="password_confirmation",
-     *                  description="",
-     *                  type="string",
-     *              )
-     *           )
-     *       )
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Returns response object",
-     *         @OA\JsonContent()
-     *     ),
-     *     @OA\Response(
-     *          response="422",
-     *          description="Error: Unproccessble Entity. When required parameters were not supplied correctly.",
-     *          @OA\JsonContent()
-     *     )
-     * )
-     */
-    public function registerAgent()
-    {
-        return $this->register(Role::AGENT);
-    }
-
-
 
     private function register($role, $extra_validation = [])
     {

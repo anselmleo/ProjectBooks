@@ -19,16 +19,12 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
-    $router->post('user-registration', 'AuthController@registerWorker');
-    $router->post('employer-registration', 'AuthController@registerEmployer');
-    $router->post('agent-registration', 'AuthController@registerAgent');
+    $router->post('user-registration', 'AuthController@registerUser');
     $router->post('confirm-email', 'AuthController@confirmEmail');
     $router->post('authenticate', 'AuthController@authenticate');
 
     $router->patch('update-password', 'UserController@updatePassword');
     $router->patch('profile', 'UserController@profile');
-    $router->post('work-history', 'UserController@workHistory');
-
     
 
     $router->group(['prefix' => 'admin'], function () use ($router) {
