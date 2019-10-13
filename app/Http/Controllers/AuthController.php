@@ -6,8 +6,6 @@ use App\Models\Role;
 use Exception;
 use App\Utils\Rules;
 use Illuminate\Support\Facades\Validator;
-use App\Repositories\Contracts\IWorkerRepository as IWorkerRepositoryAlias;
-use App\Repositories\Contracts\IEmployerRepository;
 use App\Repositories\Contracts\IUserRepository;
 use function GuzzleHttp\Promise\all;
 
@@ -139,7 +137,7 @@ class AuthController extends Controller
 
         try {
             $this->userRepo->verifyEmail($token);
-            return $this->success("E-mail successfully verified! Kindly login to access every opportunity Timbala has to offer!");
+            return $this->success("E-mail successfully verified!");
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }

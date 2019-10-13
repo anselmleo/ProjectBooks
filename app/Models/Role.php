@@ -7,9 +7,7 @@ use Zizaco\Entrust\EntrustRole;
 class Role extends EntrustRole
 {
     const
-        EMPLOYER = 'employer',
-        WORKER = 'worker',
-        AGENT = 'agent',
+        USER = 'user',
         ADMIN = 'admin';
 
     protected $fillable = [

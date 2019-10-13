@@ -14,7 +14,7 @@
 $router->get('/', function () use ($router) {
     return response()->json([
         "message" => "Welcome to Fotomi API endpoints",
-        "base_url" => url('/') . "api/v1/"
+        "base_url" => url('/') . "/api/v1/"
     ]);
 });
 

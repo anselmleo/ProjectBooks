@@ -51,7 +51,6 @@ class UserRepository implements IUserRepository
      */
     public function register(array $params, $role): void
     {
-
         [
             'email' => $email,
             'phone' => $phone,
@@ -59,7 +58,7 @@ class UserRepository implements IUserRepository
             'last_name' => $last_name,
             'password' => $password
         ] = $params;
-
+            
         try {
             // Persist data
             $user = User::create([
@@ -68,18 +67,23 @@ class UserRepository implements IUserRepository
                 'password' => bcrypt($password)
             ]);
 
+            $isNull = is_null($user);
+            if ($isNull) 
+                throw new Exception ("Could not create a user. Null parameter received");
+
             $user_id = $user->id;
             $this->setUser($user_id);
+
 
             $this->getUser()->profile()->create([
                 'first_name' => $first_name,
                 'last_name' => $last_name,
                 'avatar' => Profile::AVATAR
             ]);
-
+            
             // Attach worker role
             $this->assignRole($role);
-
+            
             // Generate user verification token
             if (!$this->createVerificationToken())
                 throw new Exception("Could not create verification token for the registered user with id ${user_id}");
@@ -125,7 +129,7 @@ class UserRepository implements IUserRepository
         dispatch((new UpdateLastLoginJob(auth()->id(), request()->ip()))
             ->delay(Carbon::now()->addSeconds(10)));
 
-        $profile = ($this->getUser()->hasRole(Role::WORKER)) ? $this->getWorkerDetails()
+        $profile = ($this->getUser()->hasRole(Role::USER)) ? $this->getUserDetails()
             : $this->getFullDetails();
 
         return [
@@ -155,7 +159,7 @@ class UserRepository implements IUserRepository
     public function assignRole($role): void
     {
         $user_role = Role::where('name', $role)->first();
-
+        
         if (!$user_role) {
             throw new Exception("Unable to find expected role in the system");
         }
@@ -215,9 +219,9 @@ class UserRepository implements IUserRepository
         return User::with(['profile.city', 'roles', 'lastLogin'])->find($this->user->id);
     }
 
-    public function getWorkerDetails()
+    public function getUserDetails()
     {
-        return User::with(['profile.city', 'workHistory', 'roles', 'lastLogin'])->find($this->getUser()->id);
+        return User::with(['profile.city', 'roles', 'lastLogin'])->find($this->getUser()->id);
     }
 
     /**
@@ -284,8 +288,8 @@ class UserRepository implements IUserRepository
 
         $this->updateProfileStatus();
 
-        if ($this->getUser()->hasRole(Role::WORKER)) {
-            return $this->getWorkerDetails();
+        if ($this->getUser()->hasRole(Role::USER)) {
+            return $this->getUserDetails();
         }
 
         return $this->getFullDetails();

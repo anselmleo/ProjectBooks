@@ -15,8 +15,8 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $super_admin_user = User::create([
-            'email' => 'super_admin@mastermindtech.ng',
-            'phone' => '08063800482',
+            'email' => 'anselm@intellchub.com',
+            'phone' => '08069523313',
             'password' => bcrypt('P@ssword@01'),
             'is_premium' => true,
             'is_active' => true,
@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $admin_user = User::create([
-            'email' => 'admin@timbala.com',
+            'email' => 'admin@fotomi.com',
             'phone' => '00000000001',
             'password' => bcrypt('admin'),
             'is_premium' => true,
@@ -39,65 +39,31 @@ class UsersTableSeeder extends Seeder
         ]);
         $admin_user->profile()->create([
             'first_name' => 'Admin',
-            'last_name' => 'Timbala',
+            'last_name' => 'Fotomi',
             'avatar' => Profile::AVATAR
         ]);
 
-        $agent_user = User::create([
-            'email' => 'agent@timbala.com',
-            'phone' => '00000000002',
-            'password' => bcrypt('agent'),
-            'is_premium' => true,
-            'is_active' => true,
-            'is_confirmed' => true,
-        ]);
-
-        $agent_user->profile()->create([
-            'first_name' => 'Agent',
-            'last_name' => 'Timbala',
-            'avatar' => Profile::AVATAR
-        ]);
-
-        $employer_user = User::create([
-            'email' => 'employer@timbala.com',
-            'phone' => '00000000003',
-            'password' => bcrypt('employer'),
-            'is_premium' => true,
-            'is_active' => true,
-            'is_confirmed' => true,
-        ]);
-
-        $employer_user->profile()->create([
-            'first_name' => 'Employer',
-            'last_name' => 'Timbala',
-            'avatar' => Profile::AVATAR
-        ]);
-
-        $worker_user = User::create([
-            'email' => 'worker@timbala.com',
+        $user = User::create([
+            'email' => 'user@fotomi.com',
             'phone' => '00000000004',
-            'password' => bcrypt('worker'),
+            'password' => bcrypt('user'),
             'is_premium' => true,
             'is_active' => true,
             'is_confirmed' => true,
         ]);
 
-        $worker_user->profile()->create([
-            'first_name' => 'Worker',
-            'last_name' => 'Timbala',
+        $user->profile()->create([
+            'first_name' => 'User',
+            'last_name' => 'Fotomi',
             'avatar' => Profile::AVATAR
         ]);
 
         $super_admin_role = Role::where('name', 'super_admin')->first();
         $admin_role = Role::where('name', Role::ADMIN)->first();
-        $agent_role = Role::where('name', Role::AGENT)->first();
-        $employer_role = Role::where('name', Role::EMPLOYER)->first();
-        $worker_role = Role::where('name', Role::WORKER)->first();
+        $worker_role = Role::where('name', Role::USER)->first();
 
         $super_admin_user->attachRole($super_admin_role);
         $admin_user->attachRole($admin_role);
-        $agent_user->attachRole($agent_role);
-        $employer_user->attachRole($employer_role);
-        $worker_user->attachRole($worker_role);
+        $user->attachRole($worker_role);
     }
 }

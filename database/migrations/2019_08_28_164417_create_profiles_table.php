@@ -20,13 +20,9 @@ class CreateProfilesTable extends Migration
             $table->string('last_name');
             $table->longText('avatar');
             $table->string("gender")->nullable();
-            $table->string('bank_verification_number')->nullable();
             $table->text('address')->nullable();
             $table->string('city_id')->nullable();
             $table->string('state')->nullable();
-            $table->string('date_of_birth')->nullable();
-            $table->text('job_interest')->nullable();
-            $table->text('bio')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

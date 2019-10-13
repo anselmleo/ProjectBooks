@@ -24,19 +24,9 @@ class RolesTableSeeder extends Seeder
                 'description' => 'User is the owner of the project',
             ],
             [
-                'name' => 'employer',
-                'display_name' => 'Employer',
-                'description' => 'Employer',
-            ],
-            [
-                'name' => 'agent',
-                'display_name' => 'Agent',
-                'description' => 'Agent',
-            ],
-            [
-                'name' => 'worker',
-                'display_name' => 'Worker',
-                'description' => 'Worker',
+                'name' => 'user',
+                'display_name' => 'User',
+                'description' => 'User',
             ],
         ];
 
