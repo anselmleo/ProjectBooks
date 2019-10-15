@@ -72,23 +72,13 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return $this->hasOne(LastLogin::class);
     }
 
-    public function workHistory()
-    {
-        return $this->hasMany(WorkHistory::class);
-    }
-
     public function transaction()
     {
         return $this->hasMany(Transaction::class);
     }
 
-    public function bvnAnalysis()
+    public function photos()
     {
-        return $this->hasOne(BvnAnalysis::class);
-    }
-
-    public function agentCustomer()
-    {
-        return $this->hasMany(AgentCustomer::class);
+        return $this->hasMany(Photo::class);
     }
 }

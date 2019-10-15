@@ -25,7 +25,13 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     $router->patch('update-password', 'UserController@updatePassword');
     $router->patch('profile', 'UserController@profile');
-    
+
+    $router->group(['prefix' => 'photos'], function () use ($router) {
+        $router->post('upload', 'PhotoController@uploadPhoto');
+        $router->post('upload64', 'PhotoController@uploadPhoto64');
+        $router->get('', 'PhotoController@myPhotos');
+        $router->get('/{photo_id}', 'PhotoController@getSinglePhoto');
+    });
 
     $router->group(['prefix' => 'admin'], function () use ($router) {
         $router->get('all-users', 'UserController@allUsers');

@@ -7,8 +7,8 @@ use App\Repositories\Concretes\AdminRepository;
 use App\Repositories\Contracts\IAdminRepository;
 use App\Repositories\Concretes\UserRepository;
 use App\Repositories\Contracts\IUserRepository;
-use App\Repositories\Concretes\JobRepository;
-use App\Repositories\Contracts\IJobRepository;
+use App\Repositories\Concretes\PhotoRepository;
+use App\Repositories\Contracts\IPhotoRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoriesInjection extends ServiceProvider
@@ -21,8 +21,8 @@ class RepositoriesInjection extends ServiceProvider
         );
 
         $this->app->bind(
-            IJobRepository::class,
-            JobRepository::class
+            IPhotoRepository::class,
+            PhotoRepository::class
         );
 
         $this->app->bind(
