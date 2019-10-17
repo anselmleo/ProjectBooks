@@ -134,6 +134,7 @@ class UserRepository implements IUserRepository
 
         return [
             'access_token' => $token,
+            'expires_in' => auth()->factory()->getTTL()/60 . ' hours',
             'payload' => $profile
         ];
     }
