@@ -100,6 +100,15 @@ class Rules
             'position' => 'required|string',
             'start_date' => 'required|string',
             'end_date' => 'required|string',
+        ],
+
+        'PAYSTACK_INITIALIZE' => [
+            'email' => 'required|email',
+            'amount' => 'required|numeric',
+        ],
+
+        'PAYSTACK_VERIFY' => [
+            'reference' => 'required'
         ]
     ];
 

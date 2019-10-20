@@ -69,7 +69,7 @@ class PhotoController extends Controller
    * )
    * @return JsonResponse
    */
-  public function myJobs()
+  public function myPhotos()
   {
     $payload = request()->all();
     $perPage = request()->has('per_page') ? $payload['per_page'] : 15;
@@ -110,31 +110,7 @@ class PhotoController extends Controller
     }
   }
 
-  /**
-   * @OA\Get(
-   *     path="/dashboard-stat",
-   *     operationId="dashboardStat",
-   *     tags={"Common"},
-   *     security={{"authorization_token": {}}},
-   *     summary="Get dashboard metrics",
-   *     description="",
-   *     @OA\Response(
-   *         response="200",
-   *         description="Returns response object",
-   *         @OA\JsonContent()
-   *     ),
-   * )
-   * @return JsonResponse
-   */
-  public function dashboardStat()
-  {
-    try {
-      $data = $this->photoRepository->dashboardStat(auth()->id());
-      return $this->withData($data);
-    } catch (Exception $e) {
-      return $this->error($e->getMessage());
-    }
-  }
+
 
 
   public function uploadPhoto(Request $request, $disk = 'local') {
@@ -173,7 +149,7 @@ class PhotoController extends Controller
 
         $photo = Photo::create([
           'user_id' => $user_id,
-          'name' => $filenameToStore,
+          'title' => $filenameToStore,
           'path' => $path,
         ]);
 

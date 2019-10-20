@@ -75,7 +75,7 @@ class Paystack
     {
         $url_segment = '/transaction/initialize';
 
-        $callback_url = url('api/v1/callback');
+        $callback_url = url('api/v1/pay/verify');
 
         $params = [
             'email' => $email,
@@ -86,10 +86,8 @@ class Paystack
 
         try {
             $response = $this->getClient()->post($url_segment, ['json' => $params]);
-
             return $this->prettyResponse($response);
         } catch (ClientException $e) {
-
             throw new Exception($this->errorMessage($e));
         }
     }

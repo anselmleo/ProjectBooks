@@ -13,9 +13,9 @@ class Controller extends BaseController
      * @OA\OpenApi(
      *     @OA\Info(
      *         version="1.0.0",
-     *         title="Timbala",
-     *         description="This is the service definitions for Timbala.  You can find out more about Timbala at [https://timbala.now.sh](https://timbala.now.sh).  For this documentaion, you can use the api key `special-key` to test the authorization filters.",
-     *         termsOfService="https://timbala.now.sh/",
+     *         title="Fotomi",
+     *         description="This is the service definitions for Fotomi.  You can find out more about Fotomi at [https://fotomi.now.sh](https://fotomi.now.sh).  For this documentaion, you can use the api key `special-key` to test the authorization filters.",
+     *         termsOfService="https://fotomi.now.sh/",
      *         @OA\Contact(
      *             email="osarenrenenoch@gmail.com"
      *         ),
@@ -27,15 +27,15 @@ class Controller extends BaseController
      *     ),
      *      @OA\Server(
      *         description="staging",
-     *         url="https://timbala-api.herokuapp.com/api/v1"
+     *         url="https://fotomi-api.herokuapp.com/api/v1"
      *     ),
      *     @OA\Server(
      *         description="local",
      *         url="http://0.0.0.0:8000/api/v1"
      *     ),
      *     @OA\ExternalDocumentation(
-     *         description="Find out more about Timbala",
-     *         url="https://timbala.now.sh"
+     *         description="Find out more about Fotomi",
+     *         url="https://fotomi.now.sh"
      *     )
      * )
      */

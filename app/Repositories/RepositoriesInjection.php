@@ -24,6 +24,11 @@ class RepositoriesInjection extends ServiceProvider
             IPhotoRepository::class,
             PhotoRepository::class
         );
+        
+        $this->app->bind(
+            IPaystackRepository::class,
+            PaystackRepository::class
+        );
 
         $this->app->bind(
             IAdminRepository::class,

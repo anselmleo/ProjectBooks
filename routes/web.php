@@ -33,6 +33,11 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->get('/{photo_id}', 'PhotoController@getSinglePhoto');
     });
 
+    $router->group(['prefix' => 'pay'], function () use ($router) {
+        $router->post('', 'PaystackController@initialize');
+        $router->get('verify', 'PaystackController@verifyPay');
+    });
+
     $router->group(['prefix' => 'admin'], function () use ($router) {
         $router->get('all-users', 'UserController@allUsers');
         $router->patch('subscribe/{user_id}', 'UserController@manuallySubscribeUser');
