@@ -7,11 +7,16 @@ class Rules
 {
     const RULES = [
         'REGISTER_USER' => [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
+            'full_name' => 'required|string',
             'email' => 'required|unique:users|email',
             'phone' => 'required|unique:users|digits:11',
-            'password' => 'required|confirmed|min:8'
+            'frame_type' => 'required|string',
+            'frame_image' => 'required_without:frame_text|image|mimes:jpeg,png,jpg',
+            'frame_text' => 'required_without:frame_image|string',
+            'frame_dimension' => 'required|string',
+            'shipping_addr' => 'required|string',
+            'state' => 'required|string',
+            'extra_note' => 'string'
         ],
 
         'CONFIRM_EMAIL' => [

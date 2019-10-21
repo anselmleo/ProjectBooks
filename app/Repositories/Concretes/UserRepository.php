@@ -46,16 +46,15 @@ class UserRepository implements IUserRepository
 
     /**
      * @param array $params
-     * @param $role
      * @throws Exception
      */
-    public function register(array $params, $role): void
+    public function register(array $params): void
     {
+        $role = Role::USER;
         [
             'email' => $email,
             'phone' => $phone,
-            'first_name' => $first_name,
-            'last_name' => $last_name,
+            'full_name' => $first_name,
             'password' => $password
         ] = $params;
             
@@ -77,7 +76,6 @@ class UserRepository implements IUserRepository
 
             $this->getUser()->profile()->create([
                 'first_name' => $first_name,
-                'last_name' => $last_name,
                 'avatar' => Profile::AVATAR
             ]);
             

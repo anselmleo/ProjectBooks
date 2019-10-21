@@ -21,8 +21,8 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      * @var array
      */
     protected $fillable = [
-        'phone', 'email', 'password', 'is_active', 'is_premium', 'is_confirmed', 'is_ban', 'is_bvn_verified',
-        'profile_updated', 'work_history_updated'
+        'phone', 'email', 'password', 'is_active', 'is_premium', 'is_confirmed', 'is_ban',
+        'profile_updated', 
     ];
 
     /**

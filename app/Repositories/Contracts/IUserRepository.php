@@ -5,7 +5,7 @@ namespace App\Repositories\Contracts;
 
 interface IUserRepository
 {
-    public function register(array $params, $role);
+    public function register(array $params);
 
     public function workHistory(int $user_id, array $params);
 

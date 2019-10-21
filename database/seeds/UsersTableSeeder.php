@@ -15,6 +15,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $super_admin_user = User::create([
+            'full_name' => 'Anselm Fotomi',
             'email' => 'anselm@intellchub.com',
             'phone' => '08069523313',
             'password' => bcrypt('P@ssword@01'),
@@ -30,6 +31,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $admin_user = User::create([
+            'full_name' => 'Admin Fotomi',
             'email' => 'admin@fotomi.com',
             'phone' => '00000000001',
             'password' => bcrypt('admin'),
@@ -44,6 +46,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user = User::create([
+            'full_name' => 'User Fotomi',
             'email' => 'user@fotomi.com',
             'phone' => '00000000004',
             'password' => bcrypt('user'),

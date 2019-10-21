@@ -16,8 +16,7 @@ class CreateProfilesTable extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('full_name');
             $table->longText('avatar');
             $table->string("gender")->nullable();
             $table->text('address')->nullable();

@@ -19,9 +19,11 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
-    $router->post('user-registration', 'AuthController@registerUser');
+    $router->post('user-registration', 'AuthController@register');
     $router->post('confirm-email', 'AuthController@confirmEmail');
     $router->post('authenticate', 'AuthController@authenticate');
+    $router->post('post', 'PostController@post');
+    $router->get('pricing', 'FrameController@getPricing');
 
     $router->patch('update-password', 'UserController@updatePassword');
     $router->patch('profile', 'UserController@profile');

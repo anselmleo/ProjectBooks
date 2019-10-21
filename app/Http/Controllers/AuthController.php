@@ -41,12 +41,7 @@ class AuthController extends Controller
      *           @OA\Schema(
      *              type="object",
      *              @OA\Property(
-     *                  property="first_name",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="last_name",
+     *                  property="full_name",
      *                  description="",
      *                  type="string",
      *              ),
@@ -61,15 +56,35 @@ class AuthController extends Controller
      *                  type="string",
      *              ),
      *              @OA\Property(
-     *                  property="password",
+     *                  property="frame_type",
      *                  description="",
      *                  type="string",
      *              ),
      *              @OA\Property(
-     *                  property="password_confirmation",
+     *                  property="frame_image",
      *                  description="",
      *                  type="string",
-     *              )
+     *              ),
+     *              @OA\Property(
+     *                  property="frame_dimension",
+     *                  description="",
+     *                  type="string",
+     *              ),
+     *              @OA\Property(
+     *                  property="shipping_addr",
+     *                  description="",
+     *                  type="string",
+     *              ),
+     *              @OA\Property(
+     *                  property="state",
+     *                  description="",
+     *                  type="string",
+     *              ),
+     *              @OA\Property(
+     *                  property="extra_note",
+     *                  description="",
+     *                  type="string",
+     *              ),
      *           )
      *       )
      *     ),
@@ -85,9 +100,22 @@ class AuthController extends Controller
      *     )
      * )
      */
-    public function registerUser()
+    public function register()
     {
-        return $this->register(Role::USER, ['email' => 'sometimes|unique:users|email']);
+
+        $role = Role::USER;
+        $payload = request()->all();
+        $validator = Validator::make($payload, Rules::get('REGISTER_USER'));
+        if ($validator->fails()) {
+            return $this->validationErrors($validator->getMessageBag()->all());
+        }
+
+        try {
+            $this->userRepo->register($payload, $role);
+            return $this->success("Registration successful, check your e-mail and kindly click to verify!");
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
     }
 
     /**
@@ -204,19 +232,6 @@ class AuthController extends Controller
         }
     }
 
-    private function register($role, $extra_validation = [])
-    {
-        $validator = Validator::make(request()->all(), Rules::get('REGISTER_USER', $extra_validation));
-        if ($validator->fails()) {
-            return $this->validationErrors($validator->getMessageBag()->all());
-        }
-
-        try {
-            $this->userRepo->register(request()->all(), $role);
-            return $this->success("Registration successful, check your e-mail and kindly click to verify!");
-        } catch (Exception $e) {
-            return $this->error($e->getMessage());
-        }
-    }
+    
 }
 
