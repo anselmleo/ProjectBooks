@@ -23,7 +23,6 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->post('confirm-email', 'AuthController@confirmEmail');
     $router->post('authenticate', 'AuthController@authenticate');
     $router->post('post', 'PostController@post');
-    $router->get('pricing', 'FrameController@getPricing');
 
     $router->patch('update-password', 'UserController@updatePassword');
     $router->patch('profile', 'UserController@profile');
@@ -33,6 +32,10 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->post('upload64', 'PhotoController@uploadPhoto64');
         $router->get('', 'PhotoController@myPhotos');
         $router->get('/{photo_id}', 'PhotoController@getSinglePhoto');
+    });
+
+    $router->group(['prefix' => 'frames'], function () use ($router) {
+        $router->get('pricing', 'FrameController@getPricing');
     });
 
     $router->group(['prefix' => 'pay'], function () use ($router) {
