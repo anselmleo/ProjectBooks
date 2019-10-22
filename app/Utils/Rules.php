@@ -20,6 +20,7 @@ class Rules
         ],
 
         'REGISTRATION' => [
+            'full_name' => 'required|string|min:3',
             'email' => 'required|unique:users|email',
             'phone' => 'required|unique:users|digits:11',
             'password' => 'required|confirmed|min:8'
@@ -123,14 +124,14 @@ class Rules
         ]
     ];
 
-    public static function get($rule)
+    public static function get($rule, $validation = [])
     {
         $rules = data_get(self::RULES, $rule);
-        // if ($validation) {
-        //     foreach ($validation as $key => $item) {
-        //         data_set($rules, $key, $item, true);
-        //     }
-        // }
+        if ($validation) {
+            foreach ($validation as $key => $item) {
+                data_set($rules, $key, $item, true);
+            }
+        }
         return $rules;
     }
 

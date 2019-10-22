@@ -75,18 +75,20 @@ class AuthController extends Controller
      *     )
      * )
      */
-    public function register()
+    public function registerUser()
     {
+        return $this->register(Role::USER, ['email' => 'sometimes|unique:users|email']);
+    }
 
-        $role = Role::USER;
-        $payload = request()->all();
-        $validator = Validator::make($payload, Rules::get('REGISTER_USER'));
+    private function register($role, $extra_validation = [])
+    {
+        $validator = Validator::make(request()->all(), Rules::get('REGISTRATION', $extra_validation));
         if ($validator->fails()) {
             return $this->validationErrors($validator->getMessageBag()->all());
         }
 
         try {
-            $this->userRepo->register($payload, $role);
+            $this->userRepo->register(request()->all(), $role);
             return $this->success("Registration successful, check your e-mail and kindly click to verify!");
         } catch (Exception $e) {
             return $this->error($e->getMessage());

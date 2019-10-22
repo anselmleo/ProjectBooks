@@ -5,9 +5,7 @@ namespace App\Repositories\Contracts;
 
 interface IUserRepository
 {
-    public function register(array $params);
-
-    public function workHistory(int $user_id, array $params);
+    public function register(array $params, $role);
 
     public function verifyEmail($token);
 
@@ -24,10 +22,6 @@ interface IUserRepository
     public function getBvnAnalysis(int $user_id);
 
     public function updatePassword(int $user_id, array $params);
-
-    public function registerWorkerByAgent(int $user_id, array $params);
-
-    public function getAgentWorkers(int $user_id);
 
     public function subscribe($user_id, $callback_url);
 

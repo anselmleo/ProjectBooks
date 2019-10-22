@@ -48,18 +48,19 @@ class UserRepository implements IUserRepository
      * @param array $params
      * @throws Exception
      */
-    public function register(array $params): void
+    public function register(array $params, $role): void
     {
-        $role = Role::USER;
         [
+            'full_name' => $full_name,
             'email' => $email,
             'phone' => $phone,
             'password' => $password
         ] = $params;
-            
+
         try {
             // Persist data
             $user = User::create([
+                'full_name' => $full_name,
                 'email' => $email,
                 'phone' => $phone,
                 'password' => bcrypt($password)
