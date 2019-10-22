@@ -73,12 +73,21 @@ class UserRepository implements IUserRepository
             $user_id = $user->id;
             $this->setUser($user_id);
 
+            // $splitName = explode(' ', $full_name, 2); // Restricts it to only 2 values, for names like Billy Bob Jones
 
-            $this->getUser()->profile()->create([
-                'avatar' => Profile::AVATAR
-            ]);
+            // $first_name = $splitName[0];
+            // $last_name = !empty($splitName[1]) ? $splitName[1] : ''; // If last name doesn't 
             
-            // Attach worker role
+            $profile =$this->getUser()->profile()->create([
+                'full_name' => $full_name,
+                'avatar' => Profile::AVATAR,
+            ]);
+
+            $isNull = is_null($profile);
+            if ($isNull)
+                throw new Exception ("Could not create user profile");
+
+            // Attach user role
             $this->assignRole($role);
             
             // Generate user verification token
@@ -87,8 +96,8 @@ class UserRepository implements IUserRepository
 
             if (!$this->activate())
                 throw new Exception("Could not activate user user with id ${user_id}");
-
-            // Push this verification email to the queue (Basically sends this email to the registered worker)
+                
+            // Push this verification email to the queue (Basically sends this email to the registered user)
             dispatch(new SendVerificationEmailJob($this->getUser()));
         } catch (Exception $e) {
             report($e);
@@ -157,7 +166,6 @@ class UserRepository implements IUserRepository
     public function assignRole($role): void
     {
         $user_role = Role::where('name', $role)->first();
-        
         if (!$user_role) {
             throw new Exception("Unable to find expected role in the system");
         }
