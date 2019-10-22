@@ -22,7 +22,6 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->post('user-registration', 'AuthController@register');
     $router->post('confirm-email', 'AuthController@confirmEmail');
     $router->post('authenticate', 'AuthController@authenticate');
-    $router->post('post', 'PostController@post');
 
     $router->patch('update-password', 'UserController@updatePassword');
     $router->patch('profile', 'UserController@profile');
@@ -38,11 +37,17 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->get('pricing', 'FrameController@getPricing');
     });
 
+    $router->group(['prefix' => 'posts'], function () use ($router) {
+        $router->post('post', 'PostController@post');
+    });
+
     $router->group(['prefix' => 'pay'], function () use ($router) {
         $router->post('', 'PaystackController@initialize');
         $router->get('verify', 'PaystackController@verifyPay');
     });
 
+
+    //STILL WORKING ON THIS
     $router->group(['prefix' => 'admin'], function () use ($router) {
         $router->get('all-users', 'UserController@allUsers');
         $router->patch('subscribe/{user_id}', 'UserController@manuallySubscribeUser');
