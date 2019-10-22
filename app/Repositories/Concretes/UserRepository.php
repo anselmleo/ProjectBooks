@@ -77,7 +77,7 @@ class UserRepository implements IUserRepository
 
             // $first_name = $splitName[0];
             // $last_name = !empty($splitName[1]) ? $splitName[1] : ''; // If last name doesn't 
-            
+
             $profile =$this->getUser()->profile()->create([
                 'full_name' => $full_name,
                 'avatar' => Profile::AVATAR,
@@ -93,7 +93,7 @@ class UserRepository implements IUserRepository
             // Generate user verification token
             if (!$this->createVerificationToken())
                 throw new Exception("Could not create verification token for the registered user with id ${user_id}");
-
+            dd($user->verificationToken->token);
             if (!$this->activate())
                 throw new Exception("Could not activate user user with id ${user_id}");
                 

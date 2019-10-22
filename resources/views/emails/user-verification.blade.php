@@ -1,8 +1,8 @@
 @component('mail::message')
-# Welcome to Timbala
+# Welcome to Fotomi
 ***
 
-Hi {{ $user->profile->first_name }},
+Hi {{ $user->profile->full_name }},
 
 Please verify you email address so we know it's really you!
 
