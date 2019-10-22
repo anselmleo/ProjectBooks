@@ -54,7 +54,6 @@ class UserRepository implements IUserRepository
         [
             'email' => $email,
             'phone' => $phone,
-            'full_name' => $first_name,
             'password' => $password
         ] = $params;
             
@@ -75,7 +74,6 @@ class UserRepository implements IUserRepository
 
 
             $this->getUser()->profile()->create([
-                'first_name' => $first_name,
                 'avatar' => Profile::AVATAR
             ]);
             
@@ -164,29 +162,6 @@ class UserRepository implements IUserRepository
         }
 
         $this->getUser()->attachRole($user_role);
-    }
-
-    public function workHistory(int $user_id, array $params): User
-    {
-        $this->setUser($user_id);
-
-        $this->getUser()->workHistory()->create([
-            'employer' => $params['employer'],
-            'position' => $params['position'],
-            'start_date' => $params['start_date'],
-            'end_date' => $params['end_date'],
-        ]);
-
-        $this->updateWorkHistoryStatus();
-
-        return $this->getWorkerDetails();
-    }
-
-    public function updateWorkHistoryStatus(): void
-    {
-        $this->getUser()->update([
-            'work_history_updated' => true
-        ]);
     }
 
     public function setUserWithToken($token): void
@@ -575,71 +550,4 @@ class UserRepository implements IUserRepository
     {
         return User::orderBy($orderBy, $sort)->paginate($perPage);
     }
-
-    /**
-     * @param int $user_id
-     * @param array $params
-     * @return User|User[]|Builder|Builder[]|Collection|Model|null
-     * @throws Exception
-     */
-    public function registerWorkerByAgent(int $user_id, array $params)
-    {
-        $worker = User::create([
-            'email' => $params['email'],
-            'phone' => $params['phone'],
-            'password' => bcrypt($params['password'])
-        ]);
-
-        $worker_id = $worker->id;
-
-        $this->setUser($worker_id);
-
-        $this->assignRole(Role::WORKER);
-
-        if (!$this->activate())
-            throw new Exception("Could not activate user user with id ${worker_id}");
-
-        if (!$this->confirmUser()) {
-            throw new Exception("Could not confirm user with user_id " . $worker_id);
-        }
-
-        dispatch(new SendWelcomeEmailJob($this->getUser()));
-
-        $worker->profile()->create([
-            'first_name' => $params['first_name'],
-            'last_name' => $params['last_name'],
-            'gender' => $params['gender'],
-            'date_of_birth' => $params['date_of_birth'],
-            'avatar' => $params['avatar'],
-            'address' => $params['address'],
-            'city_id' => $params['city_id'],
-            'state' => $params['state'],
-            'job_interest' => json_encode($params['job_interest']),
-            'bio' => $params['bio'],
-            'bank_verification_number' => $params['bvn'],
-        ]);
-
-        $worker->workHistory()->create([
-            'employer' => $params['employer'],
-            'position' => $params['position'],
-            'start_date' => $params['start_date'],
-            'end_date' => $params['end_date'],
-        ]);
-
-        $this->setUser($user_id);
-
-        $this->getUser()->agentCustomer()->create([
-            'worker_id' => $worker_id
-        ]);
-
-        $this->setUser($worker_id);
-
-        return $this->getWorkerDetails();
-    }
-
-    public function getAgentWorkers(int $user_id)
-    {
-        return AgentCustomer::with('workers')->where('user_id', $user_id)->get();
-    }
-
 }

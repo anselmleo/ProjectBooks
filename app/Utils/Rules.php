@@ -6,7 +6,7 @@ namespace App\Utils;
 class Rules
 {
     const RULES = [
-        'REGISTER_USER' => [
+        'POST_ORDER' => [
             'full_name' => 'required|string',
             'email' => 'required|unique:users|email',
             'phone' => 'required|unique:users|digits:11',
@@ -17,6 +17,12 @@ class Rules
             'shipping_addr' => 'required|string',
             'state' => 'required|string',
             'extra_note' => 'string'
+        ],
+
+        'REGISTRATION' => [
+            'email' => 'required|unique:users|email',
+            'phone' => 'required|unique:users|digits:11',
+            'password' => 'required|confirmed|min:8'
         ],
 
         'CONFIRM_EMAIL' => [
@@ -117,14 +123,14 @@ class Rules
         ]
     ];
 
-    public static function get($rule, $validation = [])
+    public static function get($rule)
     {
         $rules = data_get(self::RULES, $rule);
-        if ($validation) {
-            foreach ($validation as $key => $item) {
-                data_set($rules, $key, $item, true);
-            }
-        }
+        // if ($validation) {
+        //     foreach ($validation as $key => $item) {
+        //         data_set($rules, $key, $item, true);
+        //     }
+        // }
         return $rules;
     }
 

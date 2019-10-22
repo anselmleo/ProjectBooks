@@ -23,6 +23,11 @@ class PostController extends Controller
       'extra_note' => 'string'
     ]);
 
+    if(User::where('email',$request->get('email'))->first())
+      dd('email is there');
+    
+    dd('i got here instead');
+
     $user = new User;
     $user->full_name = $request->get('full_name');
     $user->email = $request->get('email');
