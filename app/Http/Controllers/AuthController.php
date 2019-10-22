@@ -41,11 +41,6 @@ class AuthController extends Controller
      *           @OA\Schema(
      *              type="object",
      *              @OA\Property(
-     *                  property="full_name",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
      *                  property="email",
      *                  description="",
      *                  type="string",
@@ -56,32 +51,12 @@ class AuthController extends Controller
      *                  type="string",
      *              ),
      *              @OA\Property(
-     *                  property="frame_type",
+     *                  property="password",
      *                  description="",
      *                  type="string",
      *              ),
      *              @OA\Property(
-     *                  property="frame_image",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="frame_dimension",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="shipping_addr",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="state",
-     *                  description="",
-     *                  type="string",
-     *              ),
-     *              @OA\Property(
-     *                  property="extra_note",
+     *                  property="password_confirmation",
      *                  description="",
      *                  type="string",
      *              ),
