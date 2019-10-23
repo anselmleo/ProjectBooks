@@ -50,5 +50,10 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->group(['prefix' => 'admin'], function () use ($router) {
         $router->get('all-users', 'AdminController@getAllUsers');
         $router->get('all-orders', 'AdminController@getAllOrders');
+        $router->patch('process-order/{order_id}', 'AdminController@processOrder'); 
+        $router->patch('receive-order/{order_id}', 'AdminController@receiveOrder'); 
+        $router->patch('ship-order/{order_id}', 'AdminController@shipOrder'); 
+        $router->patch('deliver-order/{order_id}', 'AdminController@deliverOrder'); 
+        $router->patch('complete-order/{order_id}', 'AdminController@completeOrder'); 
     });
 });
