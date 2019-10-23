@@ -25,8 +25,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $super_admin_user->profile()->create([
-            'first_name' => 'Super',
-            'last_name' => 'Admin',
+            'full_name' => 'Super Admin',
             'avatar' => Profile::AVATAR
         ]);
 
@@ -39,9 +38,9 @@ class UsersTableSeeder extends Seeder
             'is_active' => true,
             'is_confirmed' => true,
         ]);
+        
         $admin_user->profile()->create([
-            'first_name' => 'Admin',
-            'last_name' => 'Fotomi',
+            'full_name' => 'Admin Fotomi',
             'avatar' => Profile::AVATAR
         ]);
 
@@ -56,17 +55,16 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->profile()->create([
-            'first_name' => 'User',
-            'last_name' => 'Fotomi',
+            'full_name' => 'User Fotomi',
             'avatar' => Profile::AVATAR
         ]);
 
         $super_admin_role = Role::where('name', 'super_admin')->first();
         $admin_role = Role::where('name', Role::ADMIN)->first();
-        $worker_role = Role::where('name', Role::USER)->first();
+        $user_role = Role::where('name', Role::USER)->first();
 
         $super_admin_user->attachRole($super_admin_role);
         $admin_user->attachRole($admin_role);
-        $user->attachRole($worker_role);
+        $user->attachRole($user_role);
     }
 }
