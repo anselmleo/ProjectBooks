@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Order;
 use Illuminate\Database\Seeder;
 
 class OrdersTableSeeder extends Seeder
@@ -40,7 +41,7 @@ class OrdersTableSeeder extends Seeder
         ];
 
         foreach ($orders as $order) {
-            Role::create($order);
+            Order::create($order);
         }
         
     }
