@@ -71,11 +71,17 @@ class AdminController extends Controller
     }
   }
 
+
+  /**
+   * Get all orders
+   * @return Orders
+   */
   public function getAllOrders() 
   {
     try {
       $allOrders = Order::all();
       return response()->json([
+        'status' => true,
         'payload' => $allOrders
       ]);
     } catch (Exception $e) {
@@ -85,11 +91,16 @@ class AdminController extends Controller
     }
   }
 
+  /**
+   * Get all users
+   * @return Users
+   */
   public function getAllUsers()
   {
     try {
       $allUsers = User::all();
       return response()->json([
+        'status' => true,
         'payload' => $allUsers
       ]);
     } catch (Exception $e) {
@@ -101,6 +112,7 @@ class AdminController extends Controller
 
   public function processOrder($order_id) 
   {
-    
+    if($is_proccessing)
+      $is_proccessing = true;
   }
 }
