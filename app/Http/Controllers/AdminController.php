@@ -17,7 +17,7 @@ class AdminController extends Controller
 
   public function __construct(IAdminRepository $adminRepository)
   {
-    $this->middleware('auth:api');
+    // $this->middleware('auth:api');
     $this->adminRepository = $adminRepository;
   }
 
