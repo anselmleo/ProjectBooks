@@ -46,10 +46,9 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->get('verify', 'PaystackController@verifyPay');
     });
 
-
     //STILL WORKING ON THIS
     $router->group(['prefix' => 'admin'], function () use ($router) {
-        $router->get('all-users', 'AdminController@allUsers');
+        $router->get('all-users', 'AdminController@getAllUsers');
         $router->get('all-orders', 'AdminController@getAllOrders');
     });
 });
