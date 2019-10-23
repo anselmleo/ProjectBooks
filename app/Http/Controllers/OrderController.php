@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Post;
+use App\Models\Order;
 
-class PostController extends Controller
+class OrderController extends Controller
 {
-  public function post(Request $request)
+  public function order(Request $request)
   {
     $this->validate($request, [
       'full_name' => 'required|string',
@@ -23,20 +23,17 @@ class PostController extends Controller
       'extra_note' => 'string'
     ]);
 
-    if(User::where('email',$request->get('email'))->first())
-      dd('email is there');
+    if(!User::where('email', $request->get('email'))->first()) {
+      $user = new User;
+      $user->full_name = $request->get('full_name');
+      $user->email = $request->get('email');
+      $user->phone = $request->get('phone');
+      $user->save();
+    }  
     
-    dd('i got here instead');
-
-    $user = new User;
-    $user->full_name = $request->get('full_name');
-    $user->email = $request->get('email');
-    $user->phone = $request->get('phone');
-    $user->save();
-
-    $post = new Post;
-    $post->full_name = $request->get('full_name');
-    $post->frame_type = $request->get('frame_type');
+    $order = new Order;
+    $order->full_name = $request->get('full_name');
+    $order->frame_type = $request->get('frame_type');
 
     if ($request->hasFile('frame_image')) {
       //Get full filename
@@ -53,21 +50,23 @@ class PostController extends Controller
       
       $request->file('frame_image')->storeAs('public/frame_images', $filenameToStore);
 
-      $post->frame_image = $request->get('frame_image');
+      $order->frame_image = $filenameToStore;
+
     } else {
-      $post->frame_text = $request->get('frame_text');
+      $order->frame_text = $request->get('frame_text');
     }
 
 
-    $post->frame_dimension = $request->get('frame_dimension');
-    $post->shipping_addr = $request->get('shipping_addr');
-    $post->state = $request->get('state');
-    $post->extra_note = $request->get('extra_note');
-    $post->save();
+    $order->frame_dimension = $request->get('frame_dimension');
+    $order->shipping_addr = $request->get('shipping_addr');
+    $order->state = $request->get('state');
+    $order->extra_note = $request->get('extra_note');
+    $order->save();
 
     return response()->json([
-      "payload" => "Post sent successfully!"
-    ]);
+      "status" => true,
+      "payload" => "Order sent successfully!"
+    ], 200);
 
   }
 }

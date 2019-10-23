@@ -4,7 +4,7 @@
 namespace App\Models;
 
 
-class Post extends BaseModel
+class Order extends BaseModel
 {
   protected $fillable = [
     'full_name', 'frame_type', 'frame_image', 'frame_text', 'frame_dimension', 

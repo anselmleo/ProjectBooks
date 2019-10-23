@@ -37,8 +37,8 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->get('pricing', 'FrameController@getPricing');
     });
 
-    $router->group(['prefix' => 'posts'], function () use ($router) {
-        $router->post('post', 'PostController@post');
+    $router->group(['prefix' => 'orders'], function () use ($router) {
+        $router->post('', 'OrderController@order');
     });
 
     $router->group(['prefix' => 'pay'], function () use ($router) {
@@ -49,7 +49,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     //STILL WORKING ON THIS
     $router->group(['prefix' => 'admin'], function () use ($router) {
-        $router->get('all-users', 'UserController@allUsers');
-        $router->patch('subscribe/{user_id}', 'UserController@manuallySubscribeUser');
+        $router->get('all-users', 'AdminController@allUsers');
+        $router->get('all-orders', 'AdminController@getAllOrders');
     });
 });
