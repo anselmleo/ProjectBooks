@@ -23,6 +23,10 @@ class CreateOrdersTable extends Migration
             $table->string('shipping_addr');
             $table->string('state');
             $table->string('extra_note')->nullable();
+            $table->boolean('is_recieved')->default(false);
+            $table->boolean('is_processing')->default(false);
+            $table->boolean('is_shipped')->default(false);
+            $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });
     }

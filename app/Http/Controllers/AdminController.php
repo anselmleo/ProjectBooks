@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Repositories\Contracts\IAdminRepository;
 use App\Models\Order;
 use App\Models\User;
+use App\Utils\Rules;
 use Exception;
 
 class AdminController extends Controller
@@ -80,10 +81,12 @@ class AdminController extends Controller
   {
     try {
       $allOrders = Order::all();
-      return response()->json([
-        'status' => true,
-        'payload' => $allOrders
-      ]);
+      return $this->withData($allOrders);
+      
+      // return response()->json([
+      //   'status' => true,
+      //   'payload' => $allOrders
+      // ]);
     } catch (Exception $e) {
       return response()->json([
         'error' => $e
