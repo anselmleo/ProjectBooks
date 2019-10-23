@@ -232,7 +232,7 @@ class AdminController extends Controller
       $isShipped = $this->getOrder()->is_shipped;
       
       if(!$isShipped)
-        throw new Exception ("Order has to be processed before shipped before delivery");
+        throw new Exception ("Order has to be shipped before delivery");
 
       $isDelivered = $this->getOrder()->is_delivered;
       
