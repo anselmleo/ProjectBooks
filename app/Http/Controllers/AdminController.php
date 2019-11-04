@@ -281,5 +281,12 @@ class AdminController extends Controller
     } catch (Exception $e) {
       return $this->error($e->getMessage());
     }
+    
   }
+
+  //pending
+  //recieved
+  //processing
+  //shipped
+  //delivered
 }

@@ -257,8 +257,7 @@ class UserRepository implements IUserRepository
         $this->setUser($user_id);
 
         $this->getUser()->profile()->update([
-            'first_name' => $params['first_name'],
-            'last_name' => $params['last_name'],
+            'full_name' => $params['full_name'],
             'gender' => $params['gender'],
             'date_of_birth' => $params['date_of_birth'],
             'avatar' => $params['avatar'],
