@@ -5,11 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
+use Illuminate\Support\Facades\Validator;
+use App\Utils\Rules;
 
 class OrderController extends Controller
 {
   public function order(Request $request)
   {
+    // $payload = request()->all();
+
+    // $validator = Validator::make($payload, Rules::get('POST_ORDER'));
+
+    // if ($validator->fails()) {
+    //   return $this->validationErrors($validator->getMessageBag()->all());
+    // }
+
     $this->validate($request, [
       'full_name' => 'required|string',
       'email' => 'required|email',
@@ -56,7 +66,6 @@ class OrderController extends Controller
       $order->frame_text = $request->get('frame_text');
     }
 
-
     $order->frame_dimension = $request->get('frame_dimension');
     $order->shipping_addr = $request->get('shipping_addr');
     $order->state = $request->get('state');
@@ -65,8 +74,7 @@ class OrderController extends Controller
 
     return response()->json([
       "status" => true,
-      "payload" => "Order sent successfully!"
+      "payload" => $order
     ], 200);
-
   }
 }

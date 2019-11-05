@@ -37,7 +37,7 @@ class PhotoRepository implements IPhotoRepository
    * @return void
    * @throws Exception
    */
-  public function createJob(int $user_id, array $params): void
+  public function createOrder(int $user_id, array $params): void
   {
     $this->setUser($user_id);
 
