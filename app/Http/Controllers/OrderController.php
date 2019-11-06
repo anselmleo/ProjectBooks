@@ -105,8 +105,8 @@ class OrderController extends Controller
       "status" => true,
       "payload" => [ 
         "full_name" => $order->full_name,
-        "full_name" => $order->email,
-        "full_name" => $order->phone,
+        "email" => $order->email,
+        "phone" => $order->phone,
         "frame_type" => $frameTypeModel->frame_type,
         "frame_image" => $order->frame_image,
         "frame_image_path" => $order->frame_image_path,
