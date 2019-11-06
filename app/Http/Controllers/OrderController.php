@@ -5,11 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\FrameType;
+use App\Models\FrameDimension;
 use Illuminate\Support\Facades\Validator;
 use App\Utils\Rules;
+use App\Services\FilesServices;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
+
+  private $filesServices;
+
+  public function __construct(FilesServices $filesServices)
+  {
+    $this->filesServices = $filesServices;
+  }
   public function order(Request $request)
   {
     // $payload = request()->all();
@@ -18,6 +29,12 @@ class OrderController extends Controller
 
     // if ($validator->fails()) {
     //   return $this->validationErrors($validator->getMessageBag()->all());
+    // }
+
+    // try {
+    //   $order = $this->order;
+    // } catch (Exception $e) {
+    //   return $this->error($e->getMessage());
     // }
 
     $this->validate($request, [
@@ -47,34 +64,55 @@ class OrderController extends Controller
 
     if ($request->hasFile('frame_image')) {
       //Get full filename
-      $filenameWithExt = $request->file('frame_image')->getClientOriginalName();
+      // $filenameWithExt = $request->file('frame_image')->getClientOriginalName();
 
-      //Extract filename only
-      $filenameWithoutExt = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+      // //Extract filename only
+      // $filenameWithoutExt = pathinfo($filenameWithExt, PATHINFO_FILENAME);
 
-      //Extract extenstion only
-      $extension = $request->file('frame_image')->getClientOriginalExtension();
+      // //Extract extenstion only
+      // $extension = $request->file('frame_image')->getClientOriginalExtension();
 
-      //Combine again with timestamp in the middle to differentiate files with same filename.
-      $filenameToStore = $filenameWithoutExt . '_' . time() . '.' . $extension;
+      // //Combine again with timestamp in the middle to differentiate files with same filename.
+      // $filenameToStore = $filenameWithoutExt . '_' . time() . '.' . $extension;
+
+      $nameAndPath = $this->filesServices->upload('frame_images', $request->file('frame_image'));
       
-      $request->file('frame_image')->storeAs('public/frame_images', $filenameToStore);
+      // $imageLink = $request->file('frame_image')->storeAs('public/frame_images', $filenameToStore);
 
-      $order->frame_image = $filenameToStore;
+      $imageurl = asset('public/storage/'.$nameAndPath[1]);
 
+      $order->frame_image = $nameAndPath[0];
+      $order->frame_image_path = Storage::url($nameAndPath[1]);
     } else {
       $order->frame_text = $request->get('frame_text');
     }
-
     $order->frame_dimension = $request->get('frame_dimension');
     $order->shipping_addr = $request->get('shipping_addr');
     $order->state = $request->get('state');
     $order->extra_note = $request->get('extra_note');
     $order->save();
 
+    $frameType = $order->frame_type;
+    $frameTypeModel = FrameType::find($frameType);
+
+    $frameDimension = $order->frame_dimension;
+    $frameDimensionModel = FrameDimension::find($frameDimension);
+    
+
     return response()->json([
       "status" => true,
-      "payload" => $order
+      "payload" => [ 
+        "full_name" => $order->full_name,
+        "frame_type" => $frameTypeModel->frame_type,
+        "frame_image" => $order->frame_image,
+        "frame_image_path" => $order->frame_image_path,
+        "frame_dimension" => $frameDimensionModel->frame_dimension . '(₦' . $frameDimensionModel->price . ')',
+        "shipping_addr" => $order->shipping_addr,
+        "state" => $order->state,
+        "extra_note" => $order->extra_note,
+        "id" => $order->id
+      ],
+
     ], 200);
   }
 }

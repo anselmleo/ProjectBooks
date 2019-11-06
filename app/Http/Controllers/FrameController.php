@@ -22,7 +22,6 @@ class FrameController extends Controller
       $illustration['name'] = $illustration['frame_dimension'] . '(₦' . $illustration['price'] . ')';
     }
 
-
     $quotes = FrameDimension::where('frame_type_id', 3)->get();
     foreach ($quotes as $quote) {
       $quote['name'] = $quote['frame_dimension'] . '(₦' . $quote['price'] . ')';

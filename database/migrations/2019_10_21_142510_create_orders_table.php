@@ -18,11 +18,13 @@ class CreateOrdersTable extends Migration
             $table->string('full_name');
             $table->string('frame_type');
             $table->string('frame_image')->nullable();
+            $table->string('frame_image_path')->nullable();
             $table->string('frame_text')->nullable();
             $table->string('frame_dimension');
             $table->string('shipping_addr');
             $table->string('state');
             $table->string('extra_note')->nullable();
+            $table->string('is_paid')->default(false);
             $table->boolean('is_received')->default(false);
             $table->boolean('is_processing')->default(false);
             $table->boolean('is_shipped')->default(false);
