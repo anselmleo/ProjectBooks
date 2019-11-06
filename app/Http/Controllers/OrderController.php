@@ -60,6 +60,8 @@ class OrderController extends Controller
     
     $order = new Order;
     $order->full_name = $request->get('full_name');
+    $order->full_name = $request->get('email');
+    $order->full_name = $request->get('phone');
     $order->frame_type = $request->get('frame_type');
 
     if ($request->hasFile('frame_image')) {
@@ -103,6 +105,8 @@ class OrderController extends Controller
       "status" => true,
       "payload" => [ 
         "full_name" => $order->full_name,
+        "full_name" => $order->email,
+        "full_name" => $order->phone,
         "frame_type" => $frameTypeModel->frame_type,
         "frame_image" => $order->frame_image,
         "frame_image_path" => $order->frame_image_path,
@@ -110,6 +114,7 @@ class OrderController extends Controller
         "shipping_addr" => $order->shipping_addr,
         "state" => $order->state,
         "extra_note" => $order->extra_note,
+        "is_paid" => $order->is_paid,
         "id" => $order->id
       ],
 

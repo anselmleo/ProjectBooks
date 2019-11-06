@@ -16,6 +16,8 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('full_name');
+            $table->string('email');
+            $table->string('phone');
             $table->string('frame_type');
             $table->string('frame_image')->nullable();
             $table->string('frame_image_path')->nullable();
@@ -24,7 +26,7 @@ class CreateOrdersTable extends Migration
             $table->string('shipping_addr');
             $table->string('state');
             $table->string('extra_note')->nullable();
-            $table->string('is_paid')->default(false);
+            $table->boolean('is_paid')->default(false);
             $table->boolean('is_received')->default(false);
             $table->boolean('is_processing')->default(false);
             $table->boolean('is_shipped')->default(false);
