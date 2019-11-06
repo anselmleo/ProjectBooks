@@ -16,51 +16,57 @@ class Order extends BaseModel
     'updated_at'
   ];
 
-  // public function getFrameTypeAttribute($frameType)
-  // {
-  //   switch ($frameType) {
-  //     case 1:
-  //       # return frame type name
-  //       return $frameType = "Regular";
-  //       break;
+  public function getIsPaidAttribute($isPaid)
+  {
+    if($isPaid) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-  //     case 2:
-  //       # return frame type name
-  //       return $frameType = "Illustration";
-  //       break;
+  public function getIsReceivedAttribute($isReceived)
+  {
+    if ($isReceived) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-  //     case 3:
-  //       # return frame type name
-  //       return $frameType = "Quote";
-  //       break;
-      
-  //     default:
-  //       # code...
-  //       break;
-  //   }
-  // }
+  public function getIsProcessingAttribute($isProcessing)
+  {
+    if ($isProcessing) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-  // public function getFrameDimensionAttribute($frameDimension)
-  // {
-  //   switch ($frameDimension) {
-  //     case 1:
-  //       # return frame type name
-  //       return $frameDimension = "Regular";
-  //       break;
+  public function getIsShippedAttribute($isShipped)
+  {
+    if ($isShipped) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-  //     case 2:
-  //       # return frame type name
-  //       return $frameDimension = "Illustration";
-  //       break;
+  public function getIsDeliveredAttribute($isDelivered)
+  {
+    if ($isDelivered) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-  //     case 3:
-  //       # return frame type name
-  //       return $frameDimension = "Quote";
-  //       break;
-
-  //     default:
-  //       # code...
-  //       break;
-  //   }
-  // }
+  public function getIsCompletedAttribute($isCompleted)
+  {
+    if ($isCompleted) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

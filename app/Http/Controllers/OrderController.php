@@ -115,6 +115,11 @@ class OrderController extends Controller
         "state" => $order->state,
         "extra_note" => $order->extra_note,
         "is_paid" => $order->is_paid,
+        "is_received" => $order->is_received,
+        "is_processing" => $order->is_processing,
+        "is_shipped" => $order->is_shipped,
+        "is_delivered" => $order->is_delivered,
+        "is_completed" => $order->is_completed,
         "id" => $order->id
       ],
 
