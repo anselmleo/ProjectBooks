@@ -60,8 +60,8 @@ class OrderController extends Controller
     
     $order = new Order;
     $order->full_name = $request->get('full_name');
-    $order->full_name = $request->get('email');
-    $order->full_name = $request->get('phone');
+    $order->email = $request->get('email');
+    $order->phone = $request->get('phone');
     $order->frame_type = $request->get('frame_type');
 
     if ($request->hasFile('frame_image')) {
