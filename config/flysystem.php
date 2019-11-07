@@ -47,13 +47,14 @@ return [
             'region'          => 'https://flexi-creative-bucket.s3-eu-west-2.amazonaws.com',
             'version'         => 'latest',
 
-        'awss3' => [
-            'driver'          => 'awss3',
-            'key'             => 'your-key',
-            'secret'          => 'your-secret',
-            'bucket'          => 'your-bucket',
-            'region'          => 'your-region',
-            'version'         => 'latest',
+
+        // 'awss3' => [
+        //     'driver'          => 'awss3',
+        //     'key'             => 'your-key',
+        //     'secret'          => 'your-secret',
+        //     'bucket'          => 'your-bucket',
+        //     'region'          => 'your-region',
+        //     'version'         => 'latest',
             // 'bucket_endpoint' => false,
             // 'calculate_md5'   => true,
             // 'scheme'          => 'https',
