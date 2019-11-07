@@ -41,6 +41,14 @@ return [
 
         'awss3' => [
             'driver'          => 'awss3',
+            'key'             => 'AKIAYVSIYM6A7U55WM3O',
+            'secret'          => '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',
+            'bucket'          => 'creative-bucket',
+            'region'          => 'https://flexi-creative-bucket.s3-eu-west-2.amazonaws.com',
+            'version'         => 'latest',
+
+        'awss3' => [
+            'driver'          => 'awss3',
             'key'             => 'your-key',
             'secret'          => 'your-secret',
             'bucket'          => 'your-bucket',
