@@ -74,6 +74,8 @@ $app->singleton(
      \Barryvdh\Cors\HandleCors::class,
  ]);
 
+
+
  $app->routeMiddleware([
      'auth' => App\Http\Middleware\Authenticate::class,
      'cors' => \Barryvdh\Cors\HandleCors::class,
@@ -81,6 +83,10 @@ $app->singleton(
      'permission' => \App\Http\Middleware\Permission::class,
      'ability' => \App\Http\Middleware\Ability::class,
  ]);
+
+$app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +99,7 @@ $app->singleton(
 |
 */
 
+
  $app->register(App\Providers\AppServiceProvider::class);
  $app->register(App\Providers\AuthServiceProvider::class);
  $app->register(\App\Repositories\RepositoriesInjection::class);
@@ -104,6 +111,9 @@ $app->singleton(
  $app->register(\Laravel\Horizon\HorizonServiceProvider::class);
  $app->register(Illuminate\Mail\MailServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+$app->register(GrahamCampbell\Flysystem\FlysystemServiceProvider::class);
+
+
 
 /*
 |--------------------------------------------------------------------------
