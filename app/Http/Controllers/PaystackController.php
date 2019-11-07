@@ -17,7 +17,6 @@ class PaystackController extends Controller
 {
   private $paystackService;
 
-
   public function __construct(Paystack $paystackService)
   {
     $this->paystackService = $paystackService;

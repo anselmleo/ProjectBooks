@@ -15,12 +15,24 @@ use Illuminate\Support\Facades\Storage;
 class OrderController extends Controller
 {
 
+  private $order;
   private $filesServices;
 
   public function __construct(FilesServices $filesServices)
   {
     $this->filesServices = $filesServices;
   }
+
+  public function setOrder($orderId)
+  {
+    $this->order = Order::find($orderId);
+  }
+
+  public function getOrder()
+  {
+    return $this->order;
+  }
+
   public function order(Request $request)
   {
     // $payload = request()->all();
@@ -65,26 +77,30 @@ class OrderController extends Controller
     $order->frame_type = $request->get('frame_type');
 
     if ($request->hasFile('frame_image')) {
-      //Get full filename
-      // $filenameWithExt = $request->file('frame_image')->getClientOriginalName();
+      // Get full filename
+      $fileName = $request->file('frame_image')->getClientOriginalName();
 
-      // //Extract filename only
-      // $filenameWithoutExt = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+      // Remove space from filename
+      $filenameWithExt = str_replace(' ', '', $fileName);
 
-      // //Extract extenstion only
-      // $extension = $request->file('frame_image')->getClientOriginalExtension();
+      //Extract filename only
+      $filenameWithoutExt = pathinfo($filenameWithExt, PATHINFO_FILENAME);
 
-      // //Combine again with timestamp in the middle to differentiate files with same filename.
-      // $filenameToStore = $filenameWithoutExt . '_' . time() . '.' . $extension;
+      //Extract extenstion only
+      $extension = $request->file('frame_image')->getClientOriginalExtension();
 
-      $nameAndPath = $this->filesServices->upload('frame_images', $request->file('frame_image'));
+      //Combine again with timestamp in the middle to differentiate files with same filename.
+      $filenameToStore = $filenameWithoutExt . '_' . time() . '.' . $extension;
+
+      $path = $request->file('frame_image')->storeAs('public/frame_images', $filenameToStore);
+
+      $storagePath = asset("storage/frame_images/$filenameToStore");
+
+      // $nameAndPath = $this->filesServices->upload('frame_images',$request->file('frame_image'));
+
+      $order->frame_image = $filenameToStore;
       
-      // $imageLink = $request->file('frame_image')->storeAs('public/frame_images', $filenameToStore);
-
-      $imageurl = asset('public/storage/'.$nameAndPath[1]);
-
-      $order->frame_image = $nameAndPath[0];
-      $order->frame_image_path = Storage::url($nameAndPath[1]);
+      $order->frame_image_path = $storagePath;
     } else {
       $order->frame_text = $request->get('frame_text');
     }
@@ -124,5 +140,22 @@ class OrderController extends Controller
       ],
 
     ], 200);
+  }
+
+
+  public function updateOrderPaymentStatus($order_id, Request $request)
+  {
+
+    $this->validate($request, [
+      'is_paid' => 'required'
+    ]);
+
+    $this->setOrder($order_id);
+
+    $this->getOrder()->update([
+      'is_paid'  => $request->get('is_paid')
+    ]);
+
+    return success("Order payment verified successfully. Thanks for your patronage!");
   }
 }

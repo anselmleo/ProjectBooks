@@ -69,4 +69,14 @@ class Order extends BaseModel
       return false;
     }
   }
+
+  public function frameType()
+  {
+      return $this->belongsTo('App\Models\FrameType', 'frame_type');
+  }
+
+  public function frameDimension()
+  {
+    return $this->belongsTo('App\Models\FrameDimension', 'frame_dimension');
+  }
 }

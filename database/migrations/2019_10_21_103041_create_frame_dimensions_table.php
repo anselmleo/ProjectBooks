@@ -18,6 +18,7 @@ class CreateFrameDimensionsTable extends Migration
             $table->integer('frame_type_id')->unsigned();
             $table->string('frame_dimension');
             $table->string('price');
+            $table->string('label');
             $table->timestamps();
 
             $table->foreign('frame_type_id')->references('id')->on('frame_types')

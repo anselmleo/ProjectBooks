@@ -7,7 +7,7 @@ namespace App\Models;
 class FrameDimension extends BaseModel
 {
   protected $fillable = [
-    'frame_type_id', 'name', 'price'
+    'frame_type_id', 'name', 'price', 'label'
   ];
 
   protected $hidden = [

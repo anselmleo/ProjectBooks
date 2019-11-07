@@ -115,6 +115,7 @@ class Rules
         ],
 
         'PAYSTACK_INITIALIZE' => [
+            'order_id' => 'required|numeric',
             'email' => 'required|email',
             'amount' => 'required|numeric',
         ],

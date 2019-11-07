@@ -96,7 +96,7 @@ class AdminController extends Controller
   public function getAllOrders() 
   {
     try {
-      $allOrders = Order::all();
+      $allOrders = Order::with('frameType', 'frameDimension')->get();
       return $this->withData($allOrders);
     } catch (Exception $e) {
       return response()->json([
