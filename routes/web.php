@@ -39,7 +39,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     $router->group(['prefix' => 'orders'], function () use ($router) {
         $router->post('', 'OrderController@order');
-        $router->patch('/{$order_id}', 'OrderController@updateOrder');
+        $router->patch('/{$order_id}', 'OrderController@updateOrderPaymentStatus');
     });
 
     $router->group(['prefix' => 'pay'], function () use ($router) {
