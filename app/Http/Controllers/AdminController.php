@@ -133,15 +133,10 @@ class AdminController extends Controller
       if ($isNull)
         throw new Exception("Could not get order, please try again!");
 
-      $isPaid = $this->getOrder()->is_paid;
-
-      if (!$isPaid)
-        throw new Exception("Order has to be recieved before processing");
-
       $updateOrderPaymentStatus = $this->getOrder()->is_paid;
 
       if ($updateOrderPaymentStatus)
-        throw new Exception("Order is already marked as being processed");
+        throw new Exception("Order has already been marked as paid");
 
       $updateOrderPaymentStatus = $this->getOrder()->update([
         'is_paid' => true
