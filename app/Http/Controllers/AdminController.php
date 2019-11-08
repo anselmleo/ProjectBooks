@@ -128,6 +128,8 @@ class AdminController extends Controller
 
       $this->setOrder($order_id);
 
+      $order = $this->getOrder();
+
       $isNull = is_null($this->getOrder());
 
       if ($isNull)
@@ -139,10 +141,13 @@ class AdminController extends Controller
         throw new Exception("Order has already been marked as paid");
 
       $updateOrderPaymentStatus = $this->getOrder()->update([
+        'order_status' => 'Pending',
         'is_paid' => true
       ]);
-
-      return $this->success("successfully marked order as paid");
+      
+      $order = $order->refresh();
+      
+      return $this->withSuccessAndData("Order successfully marked as paid", $order);
     } catch (Exception $e) {
       return $this->error($e->getMessage());
     }
@@ -153,6 +158,8 @@ class AdminController extends Controller
     try {
 
       $this->setOrder($order_id);
+
+      $order = $this->getOrder();
     
       $isNull = is_null($this->getOrder());
     
@@ -170,10 +177,13 @@ class AdminController extends Controller
         throw new Exception ("Order is already marked as being processed");
 
       $isProcessing = $this->getOrder()->update([
+        'order_status' => 'Processing',
         'is_processing' => true
       ]);
 
-      return $this->success("successfully marked order as processing");
+      $order = $order->refresh();
+
+      return $this->withSuccessAndData("successfully marked order as processing", $order);
 
     } catch (Exception $e) {
       return $this->error($e->getMessage());
@@ -186,6 +196,8 @@ class AdminController extends Controller
     try {
 
       $this->setOrder($order_id);
+
+      $order = $this->getOrder();
     
       $isNull = is_null($this->getOrder());
     
@@ -198,11 +210,14 @@ class AdminController extends Controller
         throw new Exception ("Order has already been marked as received!");
 
       $isReceived = $this->getOrder()->update([
+        'order_status' => 'Received',
         'is_received' => true
       ]);
-      
-      return $this->success("successfully marked order as recieved");
 
+      $order = $order->refresh();
+      
+      return $this->withSuccessAndData("successfully marked order as received", $order);
+      
     } catch (Exception $e) {
       return $this->error($e->getMessage());
     }
@@ -214,7 +229,9 @@ class AdminController extends Controller
     try {
 
       $this->setOrder($order_id);
-    
+      
+      $order = $this->getOrder();
+
       $isNull = is_null($this->getOrder());
     
       if($isNull)
@@ -231,12 +248,16 @@ class AdminController extends Controller
         throw new Exception ("Order is already marked as being shipped");
 
       $isProcessing = $this->getOrder()->update([
+        'order_status' => 'Shipped',
         'is_shipped' => true
       ]);
 
-      return $this->success("successfully marked order as shipped");
+      $order = $order->refresh();
+
+      return $this->withSuccessAndData("successfully marked order as shipped", $order);
 
     } catch (Exception $e) {
+      
       return $this->error($e->getMessage());
     }
   }
@@ -247,7 +268,9 @@ class AdminController extends Controller
     try {
 
       $this->setOrder($order_id);
-    
+      
+      $order = $this->getOrder();
+
       $isNull = is_null($this->getOrder());
     
       if($isNull)
@@ -263,11 +286,14 @@ class AdminController extends Controller
       if($isDelivered)
         throw new Exception ("Order is already marked as delivered");
 
-      $isProcessing = $this->getOrder()->update([
+      $isDelivered = $this->getOrder()->update([
+        'order_status' => 'Delivered',
         'is_delivered' => true
       ]);
 
-      return $this->success("successfully marked order as delivered");
+      $order = $order->refresh();
+
+      return $this->success("successfully marked order as delivered", $order);
 
     } catch (Exception $e) {
       return $this->error($e->getMessage());
@@ -280,6 +306,8 @@ class AdminController extends Controller
     try {
 
       $this->setOrder($order_id);
+
+      $order = $this->getOrder();
     
       $isNull = is_null($this->getOrder());
     
@@ -297,10 +325,13 @@ class AdminController extends Controller
         throw new Exception ("Order is already marked as completed");
 
       $isCompleted = $this->getOrder()->update([
+        'order_status' => 'Completed',
         'is_completed' => true
       ]);
 
-      return $this->success("successfully marked order as completed");
+      $order = $order->refresh();
+
+      return $this->success("successfully marked order as completed", $order);
 
     } catch (Exception $e) {
       return $this->error($e->getMessage());

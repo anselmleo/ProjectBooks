@@ -32,6 +32,7 @@ class CreateOrdersTable extends Migration
             $table->boolean('is_shipped')->default(false);
             $table->boolean('is_delivered')->default(false);
             $table->boolean('is_completed')->default(false);
+            $table->string('order_status')->default('Unpaid');
             $table->timestamps();
         });
     }

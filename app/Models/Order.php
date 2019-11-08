@@ -8,8 +8,8 @@ class Order extends BaseModel
 {
   protected $fillable = [
     'full_name', 'email', 'phone', 'frame_type', 'frame_image', 'frame_image_path', 'frame_text', 'frame_dimension', 
-    'shipping_addr', 'state', 'extra_note', 'is_received', 'is_processing', 
-    'is_shipped', 'is_delivered', 'is_completed'
+    'shipping_addr', 'state', 'extra_note', 'is_paid', 'is_received', 'is_processing', 
+    'is_shipped', 'is_delivered', 'is_completed', 'order_status'
   ];
 
   protected $hidden = [

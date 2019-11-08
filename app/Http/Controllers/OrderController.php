@@ -109,7 +109,9 @@ class OrderController extends Controller
     $order->state = $request->get('state');
     $order->extra_note = $request->get('extra_note');
     $order->save();
-    $orderWith = $order->with('frameType', 'frameDimension')->get();
+
+    $orderWith = $order->with('frameType', 'frameDimension')->where('id', $order->id)->first();
+        
     return $this->withData($orderWith);    
   }
 

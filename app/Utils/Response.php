@@ -22,6 +22,15 @@ trait Response
         ], 200);
     }
 
+    public function withSuccessAndData($msg = 'Operation successful', $payload = [])
+    {
+        return response()->json([
+            'status' => true,
+            'message' => $msg,
+            'data' => $payload
+        ]);
+    }
+
     public function error($msg = 'Error Occurred', $code = 400)
     {
         $code = ($code > 0 && $code < 501 ) ? $code : 400;
