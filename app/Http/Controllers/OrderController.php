@@ -109,53 +109,8 @@ class OrderController extends Controller
     $order->state = $request->get('state');
     $order->extra_note = $request->get('extra_note');
     $order->save();
-
-    $frameType = $order->frame_type;
-    $frameTypeModel = FrameType::find($frameType);
-
-    $frameDimension = $order->frame_dimension;
-    $frameDimensionModel = FrameDimension::find($frameDimension);
-    
-
-    return response()->json([
-      "status" => true,
-      "payload" => [ 
-        "full_name" => $order->full_name,
-        "email" => $order->email,
-        "phone" => $order->phone,
-        "frame_type" => $frameTypeModel->frame_type,
-        "frame_image" => $order->frame_image,
-        "frame_image_path" => $order->frame_image_path,
-        "frame_dimension" => $frameDimensionModel->frame_dimension . '(₦' . $frameDimensionModel->price . ')',
-        "shipping_addr" => $order->shipping_addr,
-        "state" => $order->state,
-        "extra_note" => $order->extra_note,
-        "is_paid" => $order->is_paid,
-        "is_received" => $order->is_received,
-        "is_processing" => $order->is_processing,
-        "is_shipped" => $order->is_shipped,
-        "is_delivered" => $order->is_delivered,
-        "is_completed" => $order->is_completed,
-        "id" => $order->id
-      ],
-
-    ], 200);
+    $orderWith = $order->with('frameType', 'frameDimension')->get();
+    return $this->withData($orderWith);    
   }
 
-
-  public function updateOrderPaymentStatus($order_id, Request $request)
-  {
-
-    $this->validate($request, [
-      'is_paid' => 'required'
-    ]);
-
-    $this->setOrder($order_id);
-
-    $this->getOrder()->update([
-      'is_paid'  => $request->get('is_paid')
-    ]);
-
-    return success("Order payment verified successfully. Thanks for your patronage!");
-  }
 }
