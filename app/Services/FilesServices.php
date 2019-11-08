@@ -16,7 +16,7 @@ class FilesServices
      *
      * @return string path
      */
-    public function upload($directoryName, $file, $disk = 'local')
+    public function upload($directoryName, $file, $disk = 'public')
     {
         $path = '';
 
@@ -25,7 +25,7 @@ class FilesServices
             $path = Storage::disk($disk)->putFileAs($directoryName, $file, $name,'public');
 
             if($disk == 's3') {
-                return env('AWS_URL')."/$path";
+                return [$name, env('AWS_URL')."/$path"];
             }
         }
 
@@ -42,6 +42,9 @@ class FilesServices
     public function setFileName($file)
     {
         $fileName = time().'-'.$file->getClientOriginalName();
+
+        $fileName = str_replace(' ', '', $fileName);
+
 
         return $fileName;
     }

@@ -20,6 +20,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
+
  $app->withFacades();
  $app->withFacades(true, [
      Zizaco\Entrust\EntrustFacade::class => 'Entrust',
@@ -27,6 +28,7 @@ $app = new Laravel\Lumen\Application(
 
  $app->withEloquent();
 
+ 
  $app->configure('permission');
  $app->configure('cors');
  $app->configure('entrust');
@@ -37,6 +39,9 @@ $app = new Laravel\Lumen\Application(
  $app->alias('mailer', Illuminate\Mail\Mailer::class);
  $app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
  $app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
+
+ $app->configure('filesystems');
+ $app->alias('storage', Illuminate\Support\Facades\Storage::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -110,6 +115,8 @@ $app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config'
  $app->register(\SwaggerLume\ServiceProvider::class);
  $app->register(\Laravel\Horizon\HorizonServiceProvider::class);
  $app->register(Illuminate\Mail\MailServiceProvider::class);
+ $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
+
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(GrahamCampbell\Flysystem\FlysystemServiceProvider::class);
 

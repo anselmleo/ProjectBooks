@@ -78,30 +78,28 @@ class OrderController extends Controller
 
     if ($request->hasFile('frame_image')) {
       // Get full filename
-      $fileName = $request->file('frame_image')->getClientOriginalName();
+      // $fileName = $request->file('frame_image')->getClientOriginalName();
 
-      // Remove space from filename
-      $filenameWithExt = str_replace(' ', '', $fileName);
+      // // Remove space from filename
+      // $filenameWithExt = str_replace(' ', '', $fileName);
 
-      //Extract filename only
-      $filenameWithoutExt = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+      // //Extract filename only
+      // $filenameWithoutExt = pathinfo($filenameWithExt, PATHINFO_FILENAME);
 
-      //Extract extenstion only
-      $extension = $request->file('frame_image')->getClientOriginalExtension();
+      // //Extract extenstion only
+      // $extension = $request->file('frame_image')->getClientOriginalExtension();
 
-      //Combine again with timestamp in the middle to differentiate files with same filename.
-      $filenameToStore = $filenameWithoutExt . '_' . time() . '.' . $extension;
+      // //Combine again with timestamp in the middle to differentiate files with same filename.
+      // $filenameToStore = $filenameWithoutExt . '_' . time() . '.' . $extension;
 
-      $path = $request->file('frame_image')->storeAs('public/frame_images', $filenameToStore);
+      $nameAndPath = $this->filesServices->upload('fotomi-api/frame_images', $request->file('frame_image'), 's3');
 
-      $storagePath = asset("storage/frame_images/$filenameToStore");
-
-      // $nameAndPath = $this->filesServices->upload('frame_images',$request->file('frame_image'));
-
-      $order->frame_image = $filenameToStore;
+      $order->frame_image = $nameAndPath[0];
       
-      $order->frame_image_path = $storagePath;
+      $order->frame_image_path = $nameAndPath[1];
+
     } else {
+
       $order->frame_text = $request->get('frame_text');
     }
     $order->frame_dimension = $request->get('frame_dimension');
@@ -111,7 +109,7 @@ class OrderController extends Controller
     $order->save();
 
     $orderWith = $order->with('frameType', 'frameDimension')->where('id', $order->id)->first();
-        
+
     return $this->withData($orderWith);    
   }
 
