@@ -122,7 +122,36 @@ class AdminController extends Controller
     }
   }
 
+  public function payOrder($order_id)
+  {
+    try {
 
+      $this->setOrder($order_id);
+
+      $isNull = is_null($this->getOrder());
+
+      if ($isNull)
+        throw new Exception("Could not get order, please try again!");
+
+      $isPaid = $this->getOrder()->is_paid;
+
+      if (!$isPaid)
+        throw new Exception("Order has to be recieved before processing");
+
+      $updateOrderPaymentStatus = $this->getOrder()->is_paid;
+
+      if ($updateOrderPaymentStatus)
+        throw new Exception("Order is already marked as being processed");
+
+      $updateOrderPaymentStatus = $this->getOrder()->update([
+        'is_paid' => true
+      ]);
+
+      return $this->success("successfully marked order as paid");
+    } catch (Exception $e) {
+      return $this->error($e->getMessage());
+    }
+  }
   
   public function processOrder($order_id) 
   {

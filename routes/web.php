@@ -39,7 +39,6 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     $router->group(['prefix' => 'orders'], function () use ($router) {
         $router->post('', 'OrderController@order');
-        $router->patch('/{$order_id}', 'OrderController@updateOrderPaymentStatus');
     });
 
     $router->group(['prefix' => 'pay'], function () use ($router) {
@@ -50,6 +49,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->group(['prefix' => 'admin'], function () use ($router) {
         $router->get('all-users', 'AdminController@getAllUsers');
         $router->get('all-orders', 'AdminController@getAllOrders');
+        $router->patch('pay-order/{order_id}', 'AdminController@payOrder');
         $router->patch('process-order/{order_id}', 'AdminController@processOrder'); 
         $router->patch('receive-order/{order_id}', 'AdminController@receiveOrder'); 
         $router->patch('ship-order/{order_id}', 'AdminController@shipOrder'); 
