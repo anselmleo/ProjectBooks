@@ -20,7 +20,13 @@ class AdminController extends Controller
 
   public function __construct(IAdminRepository $adminRepository)
   {
-    // $this->middleware('auth:api');
+    $this->middleware('auth:api');
+
+    $this->middleware('role:admin', ['only' => [
+      'getAllUsers', 'getAllOrders', 'payOrder', 'processOrder', 
+      'receiveOrder', 'shipOrder', 'deliverOrder', 'completeOrder'
+    ]]);
+
     $this->adminRepository = $adminRepository;
   }
 
@@ -79,7 +85,7 @@ class AdminController extends Controller
   //////////////////////////////////////////////////////////////////////////////
   // NEW CODES TO BE REFACTORED //
 
-  public function getOrder():Order
+  public function getOrder()
   {
     return $this->order;
   }

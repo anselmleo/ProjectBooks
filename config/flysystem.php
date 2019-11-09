@@ -38,14 +38,14 @@ return [
     */
 
     'connections' => [
-        'awss3' => [
-            'driver'          => 'awss3',
-            'key'             => 'AKIAYVSIYM6A7U55WM3O',
-            'secret'          => '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',
-            'bucket'          => 'flexi-creative-bucket',
-            'region'          => 'eu-east-2',
-            'url'             => 'https://flexi-creative-bucket.s3-eu-west-2.amazonaws.com',
-            'version'         => 'latest',
+        // 'awss3' => [
+        //     'driver'          => 'awss3',
+        //     'key'             => 'AKIAYVSIYM6A7U55WM3O',
+        //     'secret'          => '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',
+        //     'bucket'          => 'flexi-creative-bucket',
+        //     'region'          => 'eu-east-2',
+        //     'url'             => 'https://flexi-creative-bucket.s3-eu-west-2.amazonaws.com',
+        //     'version'         => 'latest',
             // 'bucket_endpoint' => false,
             // 'calculate_md5'   => true,
             // 'scheme'          => 'https',
@@ -55,7 +55,7 @@ return [
             // 'pirate'          => false,
             // 'eventable'       => true,
             // 'cache'           => 'foo'
-        ],
+        // ],
 
         'azure' => [
             'driver'       => 'azure',
