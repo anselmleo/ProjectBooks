@@ -77,20 +77,6 @@ class OrderController extends Controller
     $order->frame_type = $request->get('frame_type');
 
     if ($request->hasFile('frame_image')) {
-      // Get full filename
-      // $fileName = $request->file('frame_image')->getClientOriginalName();
-
-      // // Remove space from filename
-      // $filenameWithExt = str_replace(' ', '', $fileName);
-
-      // //Extract filename only
-      // $filenameWithoutExt = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-
-      // //Extract extenstion only
-      // $extension = $request->file('frame_image')->getClientOriginalExtension();
-
-      // //Combine again with timestamp in the middle to differentiate files with same filename.
-      // $filenameToStore = $filenameWithoutExt . '_' . time() . '.' . $extension;
 
       $nameAndPath = $this->filesServices->upload('fotomi-api/frame_images', $request->file('frame_image'), 's3');
 
@@ -99,13 +85,17 @@ class OrderController extends Controller
       $order->frame_image_path = $nameAndPath[1];
 
     } else {
-
       $order->frame_text = $request->get('frame_text');
     }
+
     $order->frame_dimension = $request->get('frame_dimension');
+    
     $order->shipping_addr = $request->get('shipping_addr');
+    
     $order->state = $request->get('state');
+    
     $order->extra_note = $request->get('extra_note');
+    
     $order->save();
 
     $orderWith = $order->with('frameType', 'frameDimension')->where('id', $order->id)->first();
