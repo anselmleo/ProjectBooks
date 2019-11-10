@@ -2,7 +2,7 @@
 # Order Posted To Fotomi
 ***
 
-Hey {{ $user->profile->first_name }},
+Hey {{ $user->full_name }},
 
 Thanks for using Fotomi
 Your new order has been posted successfully!

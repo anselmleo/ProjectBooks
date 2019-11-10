@@ -27,5 +27,7 @@ class SendWelcomeEmailJob extends Job
     public function handle()
     {
         Mail::to($this->user)->send(new WelcomeEmail($this->user));
+        Log::info('Emailed user ' . $this->user->id);
+
     }
 }

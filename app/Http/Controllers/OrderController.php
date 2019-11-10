@@ -41,7 +41,6 @@ class OrderController extends Controller
 
   public function order(Request $request)
   {
-    
     $validator = Validator::make(request()->all(), Rules::get('POST_ORDER'));
 
     if ($validator->fails()) {
@@ -49,7 +48,6 @@ class OrderController extends Controller
     }
 
     try {
-      
       $order = $this->orderRepository->order($request);
       return $this->withData($order);    
 
