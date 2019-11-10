@@ -9,27 +9,13 @@ use App\Repositories\Contracts\IAdminRepository;
 
 class AdminRepository implements IAdminRepository
 {
-    public function addCity($params)
+    public function getAllOrders()
     {
-        return City::create([
-            'name' => $params['city']
-        ]);
+        
     }
 
-    public function addCategory($params)
+    public function getAllUsers()
     {
-        return Category::create([
-            'name' => $params['category']
-        ]);
-    }
 
-    public function getCities()
-    {
-        return City::all();
-    }
-
-    public function getCategories()
-    {
-        return Category::all();
     }
 }
