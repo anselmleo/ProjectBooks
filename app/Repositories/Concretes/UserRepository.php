@@ -259,13 +259,10 @@ class UserRepository implements IUserRepository
         $this->getUser()->profile()->update([
             'full_name' => $params['full_name'],
             'gender' => $params['gender'],
-            'date_of_birth' => $params['date_of_birth'],
             'avatar' => $params['avatar'],
             'address' => $params['address'],
-            'city_id' => $params['city_id'],
+            'city' => $params['city'],
             'state' => $params['state'],
-            'job_interest' => json_encode($params['job_interest']),
-            'bio' => $params['bio']
         ]);
 
         $this->updateProfileStatus();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Profile;
 use App\Models\FrameType;
 use App\Models\FrameDimension;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
-
+  private $user;
   private $order;
   private $filesServices;
 
@@ -23,9 +24,19 @@ class OrderController extends Controller
     $this->filesServices = $filesServices;
   }
 
-  public function setOrder($orderId)
+  public function setOrder($order_id)
   {
-    $this->order = Order::find($orderId);
+    $this->order = Order::find($order_id);
+  }
+
+  public function setUser($user_id)
+  {
+    $this->user = User::find($user_id);
+  }
+
+  public function getUser()
+  {
+    return $this->user;
   }
 
   public function getOrder()
@@ -64,10 +75,24 @@ class OrderController extends Controller
 
     if(!User::where('email', $request->get('email'))->first()) {
       $user = new User;
-      $user->full_name = $request->get('full_name');
       $user->email = $request->get('email');
       $user->phone = $request->get('phone');
       $user->save();
+
+      $isNull = is_null($user);
+      if ($isNull)
+        throw new Exception("Could not create a user. Null parameter received");
+
+      $user_id = $user->id;
+      
+      $this->setUser($user_id);
+      
+      $user = $this->getUser();
+      
+      $this->getUser()->profile()->create([
+        'full_name' => $request->get('full_name'),
+        'avatar' => Profile::AVATAR
+      ]);
     }  
     
     $order = new Order;

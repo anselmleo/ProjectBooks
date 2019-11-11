@@ -10,22 +10,13 @@ class Profile extends BaseModel
 
     protected $fillable = [
         'user_id', 'full_name', 'avatar', 'gender',
-        'address', 'city_id', 'state'
+        'address', 'city', 'state'
     ];
 
     protected $hidden = [
         'user_id', 'id', 'created_at', 'updated_at', 'deleted_at'
     ];
 
-    public function getJobInterestAttribute($value)
-    {
-        if (!$value)
-            return $value;
-
-        $job_interests = json_decode($value);
-
-        return Category::find($job_interests);
-    }
 
     public function city()
     {

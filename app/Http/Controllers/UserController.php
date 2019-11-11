@@ -8,6 +8,8 @@ use App\Repositories\Contracts\IUserRepository;
 use App\Utils\Rules;
 use Exception;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Console\Input\Input;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -108,7 +110,7 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function profile()
+    public function profile(Request $request)
     {
         $payload = request()->all();
 
