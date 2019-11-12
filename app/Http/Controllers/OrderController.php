@@ -20,6 +20,7 @@ class OrderController extends Controller
 {
   use Response;
 
+  private $user;
   private $order;
   private $filesServices;
   private $orderRepository;
@@ -57,7 +58,6 @@ class OrderController extends Controller
     if ($validator->fails()) {
       return $this->validationErrors($validator->getMessageBag()->all());
     }
-
     try {
       $order = $this->orderRepository->order($request);
       return $this->withData($order);    
