@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class WelcomeEmail extends Mailable
+class OrderPostedEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -32,6 +32,6 @@ class WelcomeEmail extends Mailable
     {
         return $this
             ->subject("Fotomi")
-            ->markdown('emails.welcome');
+            ->markdown('emails.order-posted');
     }
 }

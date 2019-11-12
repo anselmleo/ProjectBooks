@@ -21,7 +21,9 @@ class FilesServices
         $path = '';
 
         if($file) {
+            
             $name = $this->setFileName($file);
+
             $path = Storage::disk($disk)->putFileAs($directoryName, $file, $name,'public');
 
             if($disk == 's3') {

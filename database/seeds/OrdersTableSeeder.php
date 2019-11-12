@@ -16,6 +16,8 @@ class OrdersTableSeeder extends Seeder
         $orders = [
             [
                 'full_name' => 'Customer One',
+                'email' => 'customerone@fotomi.com',
+                'phone' => '00000000111',
                 'frame_type' => 1,
                 'frame_image' => 'mgi1_1571817434.png',
                 'frame_dimension' => 4,
@@ -24,6 +26,8 @@ class OrdersTableSeeder extends Seeder
             ],
             [
                 'full_name' => 'Customer Two',
+                'email' => 'customertwo@fotomi.com',
+                'phone' => '00000000222',
                 'frame_type' => 2,
                 'frame_image' => 'mgi1_1571817434.png',
                 'frame_dimension' => 9,
@@ -31,7 +35,9 @@ class OrdersTableSeeder extends Seeder
                 'state' => 'Lagos'
             ],
             [
-                'full_name' => 'Customer One',
+                'full_name' => 'Customer Three',
+                'email' => 'customerthree@fotomi.com',
+                'phone' => '00000000333',
                 'frame_type' => 3,
                 'frame_text' => 'Despise not the days of humble beginnings',
                 'frame_dimension' => 16,

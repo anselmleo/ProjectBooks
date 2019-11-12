@@ -8,8 +8,8 @@ class Rules
     const RULES = [
         'POST_ORDER' => [
             'full_name' => 'required|string',
-            'email' => 'required|unique:users|email',
-            'phone' => 'required|unique:users|digits:11',
+            'email' => 'required|email',
+            'phone' => 'required|digits:11',
             'frame_type' => 'required|string',
             'frame_image' => 'required_without:frame_text|image|mimes:jpeg,png,jpg',
             'frame_text' => 'required_without:frame_image|string',

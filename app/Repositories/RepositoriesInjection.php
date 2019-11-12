@@ -9,6 +9,8 @@ use App\Repositories\Concretes\UserRepository;
 use App\Repositories\Contracts\IUserRepository;
 use App\Repositories\Concretes\PhotoRepository;
 use App\Repositories\Contracts\IPhotoRepository;
+use App\Repositories\Concretes\OrderRepository;
+use App\Repositories\Contracts\IOrderRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoriesInjection extends ServiceProvider
@@ -33,6 +35,11 @@ class RepositoriesInjection extends ServiceProvider
         $this->app->bind(
             IAdminRepository::class,
             AdminRepository::class
+        );
+
+        $this->app->bind(
+            IOrderRepository::class,
+            OrderRepository::class
         );
     }
 }

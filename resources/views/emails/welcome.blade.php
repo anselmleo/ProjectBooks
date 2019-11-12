@@ -2,7 +2,7 @@
 # Welcome to Fotomi
 ***
 
-There {{ $user->profile->first_name }},
+Dear {{ $user->full_name }},
 
 Welcome to Fotomi
 Experience imagery and photo framing like you never did before.

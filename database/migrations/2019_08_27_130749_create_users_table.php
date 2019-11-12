@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('email');
             $table->string('phone');
-            $table->string('password')->nullable();
+            $table->string('password')->default('P'.time().'!'.rand(0,9));
             $table->boolean('is_active')->default(false); // This is for active users
             $table->boolean('is_premium')->default(false); // This is for premium membership
             $table->boolean('is_confirmed')->default(false); // This will be for email confirmation
