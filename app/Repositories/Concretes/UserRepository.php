@@ -4,20 +4,14 @@
 namespace App\Repositories\Concretes;
 
 use App\Jobs\SendChangePasswordEmail;
-use App\Jobs\SendPaymentReceiptEmailJob;
 use App\Jobs\SendVerificationEmailJob;
 use App\Jobs\SendWelcomeEmailJob;
-use App\Jobs\StoreBVNAnalysisJob;
 use App\Jobs\UpdateLastLoginJob;
-use App\Models\AgentCustomer;
-use App\Models\GeneralSetting;
 use App\Models\Profile;
 use App\Models\Role;
-use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UsersVerification;
 use App\Repositories\Contracts\IUserRepository;
-use App\Services\Paystack;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -51,7 +45,6 @@ class UserRepository implements IUserRepository
     public function register(array $params, $role): void
     {
         [
-            'full_name' => $full_name,
             'email' => $email,
             'phone' => $phone,
             'password' => $password
@@ -60,7 +53,6 @@ class UserRepository implements IUserRepository
         try {
             // Persist data
             $user = User::create([
-                'full_name' => $full_name,
                 'email' => $email,
                 'phone' => $phone,
                 'password' => bcrypt($password)
@@ -199,12 +191,12 @@ class UserRepository implements IUserRepository
 
     public function getFullDetails(): User
     {
-        return User::with(['profile.city', 'roles', 'lastLogin'])->find($this->user->id);
+        return User::with(['profile', 'roles', 'lastLogin'])->find($this->user->id);
     }
 
     public function getUserDetails()
     {
-        return User::with(['profile.city', 'roles', 'lastLogin'])->find($this->getUser()->id);
+        return User::with(['profile', 'roles', 'lastLogin'])->find($this->getUser()->id);
     }
 
     /**
@@ -273,228 +265,8 @@ class UserRepository implements IUserRepository
 
         return $this->getFullDetails();
     }
-
-    /**
-     * @param int $user_id
-     * @param int $bvn
-     * @return mixed
-     * @throws Exception
-     */
-    public function bvnVerification(int $user_id, int $bvn = null): array
-    {
-        $this->setUser($user_id);
-
-        if (!$this->isProfileUpdated()) {
-            throw new Exception("Profile not updated! update your profile to proceed");
-        }
-
-        if (!is_null($bvn)) {
-            $this->getUser()->profile()->update([
-                'bank_verification_number' => $bvn
-            ]);
-        }
-
-        try {
-            $bvn_verify = (new Paystack())->bvnVerification($this->getUserBVN());
-        } catch (Exception $e) {
-            throw new Exception("The BVN provided is not correct.");
-        }
-
-        $bvn_data = data_get($bvn_verify, 'data');
-
-        $bvn_status = $this->analyzeBVN($bvn_data);
-
-        if ($bvn_status) {
-            // Update bvn_verified status
-            $this->updateBvnVerificationStatus();
-
-            return ["bvn_verification_status" => true];
-        }
-
-        return ["bvn_verification_status" => false];
-    }
-
-    /**
-     * @param $user_id
-     * @param $callback_url
-     * @return array
-     * @throws Exception
-     */
-    public function subscribe($user_id, $callback_url)
-    {
-        $this->setUser($user_id);
-
-        if ($this->isPremium()) {
-            throw new Exception('You are already a premium user!');
-        }
-        $paystack = new Paystack();
-
-        $amount = $this->getSubscriptionFee();
-        $reference = $paystack->genTranxRef();
-
-        $this->initializeTransaction($amount, $reference);
-
-        Cache::forget('callback_url');
-        Cache::put('callback_url', [
-            'callback_url' => $callback_url
-        ], Carbon::now()->addMinutes(10));
-
-        try {
-
-            $initialization = $paystack->initialize($reference, $amount, $this->getUser()->email);
-        } catch (Exception $e) {
-            throw new Exception("Connection Error: Please try again");
-        }
-
-        $url = data_get($initialization, 'data.authorization_url');
-
-        return ['authorization_url' => $url];
-    }
-
-    public function initializeTransaction($amount, $reference): void
-    {
-        $this->getUser()->transaction()->create([
-            'reference' => $reference,
-            'amount' => $amount,
-        ]);
-    }
-
-    /**
-     * @return string
-     * @throws Exception
-     */
-    public function getSubscriptionFee(): string
-    {
-        if (!$setting = GeneralSetting::find(1)) {
-            throw new Exception('Settings not found');
-        }
-
-        return $setting->subscription_fee;
-    }
-
-    /**
-     * @param string $reference
-     * @return string
-     * @throws Exception
-     */
-    public function callback(string $reference): string
-    {
-        $callback_url = Cache::get('callback_url')['callback_url'];
-
-        $payment = (new Paystack());
-
-        $verify_payment = $payment->verify($reference);
-
-        ['status' => $status] = $verify_payment;
-
-        $amount = $this->toNaira(data_get($verify_payment, 'data.amount'));
-        $status_value = data_get($verify_payment, 'data.gateway_response');
-
-        $transaction = $this->getTransactionWithReference($reference);
-
-        // A bit slower process... Will update this later...
-        $this->setUser($transaction->user->id);
-
-        $transaction->update([
-            'status' => $status,
-            'meta' => json_encode($verify_payment)
-        ]);
-
-        if ($payment->wasSuccessful($status_value)) {
-            // send a mail
-            dispatch(new SendPaymentReceiptEmailJob($this->getUser(), $amount, $status_value));
-
-            $this->updatePremiumStatus();
-        }
-        return $callback_url . '?payment_status=' . $status_value;
-    }
-
-    public function manualSubscription($user_id)
-    {
-        $this->setUser($user_id);
-        $this->updatePremiumStatus();
-    }
-
-    /**
-     * @param $reference
-     * @return Transaction
-     * @throws Exception
-     */
-    public function getTransactionWithReference($reference): Transaction
-    {
-        if (!$transaction = Transaction::where('reference', $reference)->first())
-            throw new Exception('Transaction no found!');
-
-        return $transaction;
-    }
-
-    public function updatePremiumStatus(): void
-    {
-        $this->getUser()->update([
-            'is_premium' => true
-        ]);
-    }
-
-    public function getUserBVN()
-    {
-        return $this->getUser()->profile->bank_verification_number;
-    }
-
-    public function analyzeBVN($data): bool
-    {
-        $first_name = $this->getUser()->profile->first_name;
-        $last_name = $this->getUser()->profile->last_name;
-        $date_of_birth = $this->getUser()->profile->date_of_birth;
-        $phone = $this->getUser()->phone;
-
-        [
-            'first_name' => $bvn_first_name,
-            'last_name' => $bvn_last_name,
-            'mobile' => $bvn_phone,
-            'formatted_dob' => $bvn_date_of_birth,
-        ] = $data;
-
-        $payload = [
-            'first_name_match' => false,
-            'last_name_match' => false,
-            'dob_match' => false,
-            'phone_match' => false,
-            'score' => 0
-        ];
-
-        if (strtolower($first_name) == strtolower($bvn_first_name) ||
-            strtolower($first_name) == strtolower($bvn_last_name)
-        ) {
-            $payload['first_name_match'] = true;
-            $payload['score'] += 25;
-        }
-
-        if (strtolower($last_name) == strtolower($bvn_first_name) ||
-            strtolower($last_name) == strtolower($bvn_last_name)
-        ) {
-            $payload['last_name_match'] = true;
-            $payload['score'] += 25;
-        }
-
-        if (Carbon::parse($date_of_birth)->eq(Carbon::parse($bvn_date_of_birth))) {
-            $payload['dob_match'] = true;
-            $payload['score'] += 25;
-        }
-
-        if ($phone == $bvn_phone) {
-            $payload['phone_match'] = true;
-            $payload['score'] += 25;
-        }
-
-        dispatch(new StoreBVNAnalysisJob($this->getUser(), $payload));
-
-        return ($payload['score'] > 50) ? true : false;
-    }
-
-    public function isPremium(): bool
-    {
-        return $this->getUser()->is_premium ?? false;
-    }
+    
+    
 
     public function updateProfileStatus(): void
     {
@@ -503,25 +275,7 @@ class UserRepository implements IUserRepository
         ]);
     }
 
-    public function updateBvnVerificationStatus(): void
-    {
-        $this->getUser()->update([
-            'is_bvn_verified' => true
-        ]);
-    }
-
-    public function getBvnAnalysis(int $user_id)
-    {
-        $this->setUser($user_id);
-
-        return $this->getUser()->bvnAnalysis;
-    }
-
-    public function toNaira($amount)
-    {
-        return $amount / 100;
-    }
-
+    
     public function isProfileUpdated(): bool
     {
         return $this->getUser()->profile_updated ?? false;

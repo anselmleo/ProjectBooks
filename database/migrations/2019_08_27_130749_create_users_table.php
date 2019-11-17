@@ -16,10 +16,9 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email');
-            $table->string('phone');
-            $table->string('password')->default('P'.time().'!'.rand(0,9));
+            $table->string('phone')->nullable();
+            $table->string('password');
             $table->boolean('is_active')->default(false); // This is for active users
-            $table->boolean('is_premium')->default(false); // This is for premium membership
             $table->boolean('is_confirmed')->default(false); // This will be for email confirmation
             $table->boolean('is_ban')->default(false); // This is to ban a user from using the system
             $table->boolean('profile_updated')->default(false); // This is to check if the user's basic profile is updated

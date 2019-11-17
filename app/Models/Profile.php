@@ -17,9 +17,4 @@ class Profile extends BaseModel
         'user_id', 'id', 'created_at', 'updated_at', 'deleted_at'
     ];
 
-
-    public function city()
-    {
-        return $this->hasOne(City::class, 'id', 'city_id');
-    }
 }

@@ -18,7 +18,6 @@ class UsersTableSeeder extends Seeder
             'email' => 'anselm@intellchub.com',
             'phone' => '08069523313',
             'password' => bcrypt('P@ssword@01'),
-            'is_premium' => true,
             'is_active' => true,
             'is_confirmed' => true,
         ]);
@@ -32,7 +31,6 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@fotomi.com',
             'phone' => '00000000001',
             'password' => bcrypt('admin'),
-            'is_premium' => true,
             'is_active' => true,
             'is_confirmed' => true,
         ]);
@@ -46,7 +44,6 @@ class UsersTableSeeder extends Seeder
             'email' => 'user@fotomi.com',
             'phone' => '00000000004',
             'password' => bcrypt('user'),
-            'is_premium' => true,
             'is_active' => true,
             'is_confirmed' => true,
         ]);

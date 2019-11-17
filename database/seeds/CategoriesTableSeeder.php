@@ -13,8 +13,7 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         $categories = [
-            'Warehouse Operations', 'General Labour', 'Delivery Service', 'Food Production', 'Event Staffing',
-            'Washing & Cleaning', 'Merchandising Operations', 'Administrative'
+            'Fiction', 'Fantasy', 'Classic', 'Motivational', 'Historical'
         ];
 
         foreach ($categories as $category) {
