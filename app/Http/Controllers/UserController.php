@@ -196,65 +196,7 @@ class UserController extends Controller
 
     
 
-    /**
-     * @OA\Post(
-     *     path="/subscribe",
-     *     operationId="subscribe",
-     *     tags={"User Management"},
-     *     security={{"authorization_token": {}}},
-     *     summary="Subscribe to premium membership",
-     *     description="",
-     *     @OA\RequestBody(
-     *       required=true,
-     *       description="Request object",
-     *       @OA\MediaType(
-     *           mediaType="application/json",
-     *           @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="callback_url",
-     *                  description="The url to the page to return to after payment collection",
-     *                  type="string",
-     *              )
-     *           )
-     *       )
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Returns response object",
-     *         @OA\JsonContent()
-     *     ),
-     *     @OA\Response(
-     *          response="422",
-     *          description="Error: Unproccessble Entity. When required parameters were not supplied correctly.",
-     *          @OA\JsonContent()
-     *     )
-     * )
-     */
-    public function subscribe()
-    {
-        $validator = Validator::make(request()->only('callback_url'), Rules::get('SUBSCRIBE'));
-        if ($validator->fails()) {
-            return $this->validationErrors($validator->getMessageBag()->all());
-        }
-
-        try {
-            $response = $this->userRepository->subscribe(auth()->id(), request()->callback_url);
-            return $this->withData($response);
-        } catch (Exception $e) {
-            return $this->error($e->getMessage());
-        }
-    }
-
-    public function verifyBvn($user_id)
-    {
-        try {
-            $response = $this->userRepository->bvnVerification($user_id);
-            return $this->withData($response);
-        } catch (Exception $e) {
-            return $this->error($e->getMessage());
-        }
-    }
+    
 
     /**
      * @OA\Get(
