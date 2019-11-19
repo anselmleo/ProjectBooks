@@ -15,17 +15,7 @@ interface IUserRepository
 
     public function profile(int $user_id, array $params);
 
-    public function bvnVerification(int $user_id, int $bvn = null);
-
-    public function callback(string $reference);
-
-    public function getBvnAnalysis(int $user_id);
-
     public function updatePassword(int $user_id, array $params);
-
-    public function subscribe($user_id, $callback_url);
-
-    public function manualSubscription($user_id);
 
     public function allUsers($perPage = 15, $orderBy = 'created_at', $sort = 'desc');
 }

@@ -24,10 +24,13 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->post('authenticate', 'AuthController@authenticate');
 
     $router->patch('update-password', 'UserController@updatePassword');
-    $router->patch('profile', 'UserController@profile');
+    $router->patch('profile', 'UserController@profile');    
 
-    $router->group(['prefix' => 'admin'], function () use ($router) {
+    $router->group(['prefix' => 'book'], function () use ($router) {
         $router->get('', 'BookController@getBooks');
+        $router->post('create', 'BookController@createBook');
+        $router->patch('{book_id}/update', 'BookController@updateBook');
+        $router->delete('{book_id}/delete', 'BookController@deleteBook');
     });
 
     $router->group(['prefix' => 'admin'], function () use ($router) {

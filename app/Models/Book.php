@@ -7,23 +7,17 @@ namespace App\Models;
 class Book extends BaseModel
 {
     protected $fillable = [
-        'name', 'category', 'author'
+        'title', 'description', 'cover_image', 'image_path', 'category_id', 'author_name'
     ];
 
     protected $hidden = [
         'updated_at'
     ];
+  
+    public function Category()
+    {
+        return $this->hasOne(Category::class, 'id', 'category_id')
+            ->select(['id', 'name',]);
+    }
 
-    // public function Category()
-    // {
-    //     return $this->hasOne(Category::class, 'id', 'category_id')
-    //         ->select(['id', 'name',]);
-    //   
-    // }
-
-    // public function Author()
-    // {
-    //     return $this->hasOne(Author::class, 'id', 'author_id')
-    //         ->select(['id', 'email', 'phone']);
-    // }
 }

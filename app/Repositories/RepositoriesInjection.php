@@ -7,10 +7,8 @@ use App\Repositories\Concretes\AdminRepository;
 use App\Repositories\Contracts\IAdminRepository;
 use App\Repositories\Concretes\UserRepository;
 use App\Repositories\Contracts\IUserRepository;
-use App\Repositories\Concretes\PhotoRepository;
-use App\Repositories\Contracts\IPhotoRepository;
-use App\Repositories\Concretes\OrderRepository;
-use App\Repositories\Contracts\IOrderRepository;
+use App\Repositories\Concretes\BookRepository;
+use App\Repositories\Contracts\IBookRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoriesInjection extends ServiceProvider
@@ -23,23 +21,13 @@ class RepositoriesInjection extends ServiceProvider
         );
 
         $this->app->bind(
-            IPhotoRepository::class,
-            PhotoRepository::class
-        );
-        
-        $this->app->bind(
-            IPaystackRepository::class,
-            PaystackRepository::class
+            IBookRepository::class,
+            BookRepository::class
         );
 
         $this->app->bind(
             IAdminRepository::class,
             AdminRepository::class
-        );
-
-        $this->app->bind(
-            IOrderRepository::class,
-            OrderRepository::class
         );
     }
 }

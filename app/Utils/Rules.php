@@ -35,15 +35,14 @@ class Rules
             'new_password' => 'required|confirmed|min:8',
         ],
 
-        'PAYSTACK_INITIALIZE' => [
-            'order_id' => 'required|numeric',
-            'email' => 'required|email',
-            'amount' => 'required|numeric',
-        ],
-
-        'PAYSTACK_VERIFY' => [
-            'reference' => 'required'
+        'CREATE_BOOK' => [
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg',
+            'category_id' => 'required|numeric',
+            'author_name' => 'required|string'
         ]
+
     ];
 
     public static function get($rule, $validation = [])
