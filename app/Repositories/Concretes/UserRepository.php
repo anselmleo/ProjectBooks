@@ -305,7 +305,7 @@ class UserRepository implements IUserRepository
         dispatch(new SendChangePasswordEmail($this->getUser()));
     }
 
-    public function allUsers($perPage = 15, $orderBy = 'created_at', $sort = 'desc')
+    public function getUsers($perPage = 15, $orderBy = 'created_at', $sort = 'desc')
     {
         return User::orderBy($orderBy, $sort)->paginate($perPage);
     }

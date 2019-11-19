@@ -24,13 +24,9 @@ class BookController extends Controller
   
   public function __construct(IBookRepository $bookRepository)
   {
-    $this->middleware('auth:api', ['except' => ['index', 'show']]);
-
+    $this->middleware('role:super_admin|admin', ['except' => ['getBooks']]);
     $this->bookRepository = $bookRepository;
   }
-
-
-  
   
   /**
      * @OA\Post(

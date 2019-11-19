@@ -17,5 +17,5 @@ interface IUserRepository
 
     public function updatePassword(int $user_id, array $params);
 
-    public function allUsers($perPage = 15, $orderBy = 'created_at', $sort = 'desc');
+    public function getUsers($perPage = 15, $orderBy = 'created_at', $sort = 'desc');
 }

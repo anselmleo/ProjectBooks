@@ -24,12 +24,10 @@ class UserController extends Controller
      */
     public function __construct(IUserRepository $userRepository)
     {
-        $this->middleware('auth:api', ['except' => [
-            'paymentCallback'
-        ]]);
+        $this->middleware('auth:api');
 
         $this->middleware('role:super_admin|admin', ['only' => [
-            'allUsers'
+            'getUsers'
         ]]);
 
         $this->userRepository = $userRepository;
@@ -129,9 +127,6 @@ class UserController extends Controller
     }
 
     
-    
-
-    
     /**
      * @OA\Patch(
      *     path="/update-password",
@@ -194,10 +189,6 @@ class UserController extends Controller
         }
     }
 
-    
-
-    
-
     /**
      * @OA\Get(
      *     path="/admin/all-users",
@@ -238,7 +229,7 @@ class UserController extends Controller
      *     ),
      * )
      */
-    public function allUsers()
+    public function getUsers()
     {
         $payload = request()->all();
         $perPage = request()->has('per_page') ? $payload['per_page'] : 15;
@@ -246,7 +237,7 @@ class UserController extends Controller
         $sort = request()->has('sort') ? $payload['sort'] : 'desc';
 
         try {
-            $response = $this->userRepository->allUsers($perPage, $orderBy, $sort);
+            $response = $this->userRepository->getUsers($perPage, $orderBy, $sort);
             return $this->withData($response);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
