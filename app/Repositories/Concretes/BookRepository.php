@@ -148,5 +148,32 @@ class BookRepository implements IBookRepository
         $book->delete();
         
     }
+
+    /**
+     * @param int $book_id
+     * @param int $user_id
+     * @param array $params
+     * @return BookReview
+     * @throws Exception
+     */
+    public function reviewWorker(int $job_id, int $employer_id, int $worker_id, array $params): JobReview
+    {
+        if (!$this->isCompleted($job_id))
+            throw new Exception('This job is not completed!');
+
+        if ($this->hasReviewed($job_id, $employer_id, $worker_id)) {
+            throw new Exception('Worker has already been reviewed');
+        }
+
+        $review = JobReview::create([
+            'job_id' => $job_id,
+            'reviewer_id' => $employer_id,
+            'reviewee_id' => $worker_id,
+            'no_of_stars' => $params['no_of_stars'],
+            'remark' => $params['remark']
+        ]);
+
+        return $review;
+    }
     
 }
