@@ -35,9 +35,9 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->patch('profile', 'UserController@profile');
     $router->get('all-users', 'UserController@getUsers');
 
-
     $router->group(['prefix' => 'book'], function () use ($router) {
         $router->get('', 'BookController@getBooks');
+        $router->patch('/{book_id}/review', 'BookController@review');
         $router->post('create', 'BookController@createBook');
         $router->patch('{book_id}/update', 'BookController@updateBook');
         $router->delete('{book_id}/delete', 'BookController@deleteBook');

@@ -24,7 +24,8 @@ class BookController extends Controller
   
   public function __construct(IBookRepository $bookRepository)
   {
-    $this->middleware('role:super_admin|admin', ['except' => ['getBooks']]);
+    $this->middleware('role:super_admin|admin', ['except' => ['getBooks', 'review']]);
+    $this->middleware('auth:api', ['only' => ['review']]);
     $this->bookRepository = $bookRepository;
   }
   
@@ -289,4 +290,79 @@ class BookController extends Controller
       return $this->error($e->getMessage());
     }
   }
+
+  /**
+   * @OA\Patch(
+   *     path="/job-board/{job_id}/review-worker/{worker_id}",
+   *     operationId="revieweWorker",
+   *     tags={"Job Board Operations"},
+   *     security={{"authorization_token": {}}},
+   *     summary="Review a worker",
+   *     description="Can only be performed by a employer",
+   *     @OA\Parameter(
+   *         name="job_id",
+   *         in="path",
+   *         description="ID of job to update",
+   *         required=true,
+   *         @OA\Schema(
+   *             type="integer",
+   *             format="int64"
+   *         )
+   *     ),
+   *     @OA\Parameter(
+   *         name="worker_id",
+   *         in="path",
+   *         description="ID of worker to review",
+   *         required=true,
+   *         @OA\Schema(
+   *             type="integer",
+   *             format="int64"
+   *         )
+   *     ),
+   *     @OA\RequestBody(
+   *       required=true,
+   *       description="Request object",
+   *       @OA\MediaType(
+   *           mediaType="application/json",
+   *           @OA\Schema(
+   *              type="object",
+   *              @OA\Property(
+   *                  property="no_of_stars",
+   *                  description="No of stars",
+   *                  type="string",
+   *              ),
+   *              @OA\Property(
+   *                  property="remark",
+   *                  description="Remarks",
+   *                  type="string",
+   *              ),
+   *           )
+   *       )
+   *     ),
+   *     @OA\Response(
+   *         response="200",
+   *         description="Returns response object",
+   *         @OA\JsonContent()
+   *     )
+   * )
+   * @param $worker_id
+   * @param $job_id
+   * @return JsonResponse
+   */
+  public function review($book_id)
+  {
+    $validator = Validator::make(request()->all(), Rules::get('BOOK_REVIEW'));
+    if ($validator->fails()) {
+      return $this->validationErrors($validator->getMessageBag()->all());
+    }
+
+    try {
+      $bookReview = $this->bookRepository->review($book_id, auth()->id(), request()->all());
+
+      return $this->withData($bookReview);
+    } catch (Exception $e) {
+      return $this->error($e->getMessage());
+    }
+  }
+
 }

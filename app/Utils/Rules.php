@@ -41,7 +41,12 @@ class Rules
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg',
             'category_id' => 'required|numeric',
             'author_name' => 'required|string'
-        ]
+        ],
+
+        'BOOK_REVIEW' => [
+            'no_of_stars' => 'required|numeric|max:5',
+            'remark' => 'required|nullable'
+        ],
 
     ];
 
