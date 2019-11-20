@@ -33,7 +33,7 @@ class BookController extends Controller
      * @OA\Post(
      *     path="/books",
      *     operationId="createBook",
-     *     tags={"Book Operations"},
+     *     tags={"Admin Operations"},
      *     security={{"authorization_token": {}}},
      *     summary="Create a new book",
      *     description="Can only be performed by an admin",
@@ -103,7 +103,7 @@ class BookController extends Controller
    * @OA\Patch(
    *     path="/book/{book_id}/update",
    *     operationId="updateBook",
-   *     tags={"Book Operations"},
+   *     tags={"Admin Operations"},
    *     security={{"authorization_token": {}}},
    *     summary="Update book",
    *     description="Can only be performed by an authenticated user",
@@ -247,7 +247,7 @@ class BookController extends Controller
    * @OA\Delete(
    *     path="/book/{book_id}/delete",
    *     operationId="deleteBook",
-   *     tags={"Book Operations"},
+   *     tags={"Admin Operations"},
    *     security={{"authorization_token": {}}},
    *     summary="Delete a book",
    *     description="Can only be performed by admin",
@@ -267,18 +267,10 @@ class BookController extends Controller
    *         @OA\JsonContent()
    *     ),
    * )
-   * @param $job_id
-   * @return JsonResponse
-   */
-
-
-
-  
-  /**
+   *
    * Remove the specified resource from storage.
    *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
+   * @param  int  $book_id
    */
   public function deleteBook($book_id)
   {
@@ -335,8 +327,7 @@ class BookController extends Controller
    *         @OA\JsonContent()
    *     )
    * )
-   * @param $worker_id
-   * @param $job_id
+   * @param $book_id
    * @return JsonResponse
    */
   public function review($book_id)
