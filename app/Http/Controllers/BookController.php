@@ -293,26 +293,16 @@ class BookController extends Controller
 
   /**
    * @OA\Patch(
-   *     path="/job-board/{job_id}/review-worker/{worker_id}",
-   *     operationId="revieweWorker",
-   *     tags={"Job Board Operations"},
+   *     path="/book/{book_id}/review",
+   *     operationId="review",
+   *     tags={"Book Operations"},
    *     security={{"authorization_token": {}}},
-   *     summary="Review a worker",
-   *     description="Can only be performed by a employer",
+   *     summary="Review a book",
+   *     description="Can only be performed by an authenticated user",
    *     @OA\Parameter(
-   *         name="job_id",
+   *         name="book_id",
    *         in="path",
-   *         description="ID of job to update",
-   *         required=true,
-   *         @OA\Schema(
-   *             type="integer",
-   *             format="int64"
-   *         )
-   *     ),
-   *     @OA\Parameter(
-   *         name="worker_id",
-   *         in="path",
-   *         description="ID of worker to review",
+   *         description="ID of book to review",
    *         required=true,
    *         @OA\Schema(
    *             type="integer",
@@ -357,9 +347,10 @@ class BookController extends Controller
     }
 
     try {
+      
       $bookReview = $this->bookRepository->review($book_id, auth()->id(), request()->all());
+      return $this->withSuccessAndData("Book reviewed successfully", $bookReview);
 
-      return $this->withData($bookReview);
     } catch (Exception $e) {
       return $this->error($e->getMessage());
     }
