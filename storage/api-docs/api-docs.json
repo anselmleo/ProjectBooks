@@ -655,7 +655,6 @@
         }
     },
     "externalDocs": {
-        "description": "Find out more about Fotomi",
-        "url": "https://fotomi.now.sh"
+        "url": ""
     }
 }
