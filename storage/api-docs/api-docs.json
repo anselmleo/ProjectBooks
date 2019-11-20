@@ -1,11 +1,11 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Fotomi",
-        "description": "This is the service definitions for Fotomi.  You can find out more about Fotomi at [https://fotomi.now.sh](https://fotomi.now.sh).  For this documentaion, you can use the api key `special-key` to test the authorization filters.",
+        "title": "Get Dev Books",
+        "description": "This is the service definitions for GetDev Books.  You can find out more about Fotomi at [https://fotomi.now.sh](https://fotomi.now.sh).  For this documentaion, you can use the api key `special-key` to test the authorization filters.",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
-            "email": "osarenrenenoch@gmail.com"
+            "email": "anselmleo@gmail.com"
         },
         "license": {
             "name": "Apache 2.0",
@@ -15,7 +15,7 @@
     },
     "servers": [
         {
-            "url": "https://fotomi-api.herokuapp.com/api/v1",
+            "url": "https://-api.herokuapp.com/api/v1",
             "description": "staging"
         },
         {
